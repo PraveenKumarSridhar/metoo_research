@@ -19,3 +19,4 @@ dependencies:
     - openpyxl
     - lxml
     - tensorflow==1.13.1
+    - components\component_utils
