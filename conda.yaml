@@ -10,12 +10,12 @@ dependencies:
     - demographer==1.0.4
     - hydra-core
     - protobuf==3.12.0
-    - mlflow=1.24.0
-    - pandas=1.3.5
+    - mlflow==1.24.0
+    - pandas==1.3.5
     - numpy
     - scikit-learn
     - nltk
     - gensim
     - openpyxl
     - lxml
-    - tensorflow=1.13.1
+    - tensorflow==1.13.1
