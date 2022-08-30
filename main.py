@@ -25,6 +25,7 @@ def go(config):
             mlflow.run(
                 os.path.join(root_path, f"components/{component}"),
                 "main",
+                use_conda = False,
                 parameters = {
                     "mode": config["mode"],
                     **params
