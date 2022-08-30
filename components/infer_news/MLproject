@@ -1,5 +1,4 @@
 name: infer_news
-conda_env: conda.yaml
 
 entry_points:
     main:

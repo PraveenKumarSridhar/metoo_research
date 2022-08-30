@@ -1,5 +1,4 @@
 name: train_lda
-conda_env: conda.yaml
 
 entry_points:
     main:
