@@ -8,17 +8,17 @@ dependencies:
   - spacy
   - spacy-model-en_core_web_sm
   - pip:
-    - wandb
+    - wandb==0.12.11
+    - tensorflow==1.13.1
     - demographer==1.0.4
     - hydra-core
-    - protobuf==3.12.0
     - mlflow==1.24.0
     - pandas==1.3.5
     - numpy
+    - protobuf==3.12.0
     - scikit-learn
     - nltk
     - gensim
     - openpyxl
     - lxml
-    - tensorflow==1.13.1
     - ./components/component_utils
