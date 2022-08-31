@@ -7,9 +7,9 @@ dependencies:
   - pip
   - spacy
   - spacy-model-en_core_web_sm
+  - tensorflow=1.13.1
   - pip:
     - wandb==0.12.11
-    - tensorflow==1.13.1
     - demographer==1.0.4
     - hydra-core
     - mlflow==1.24.0
