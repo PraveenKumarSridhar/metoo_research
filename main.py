@@ -27,7 +27,6 @@ def go(config):
             module = importlib.import_module(module_name)
             func = getattr(module,'go')
             func(params)
-            break
             # alt way to use subprocesses
             # subprocess.call([f'./components/{component}.py', config['mode']] + list(params.values()))
 
