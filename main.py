@@ -2,8 +2,7 @@ import os
 import logging
 
 import hydra
-# import mlflow
-import subprocess
+import importlib
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
@@ -21,18 +20,17 @@ def go(config):
     to_run = steps.split(",") if steps != "all" else config["components"].keys()
 
     for component, params in config["components"].items():
-        # print(list(params.values()))
         if component in to_run:
             logger.info(f"\n====> Running component: {component}\n")
-            subprocess.call([f'./components/{component}.py', config['mode']] + list(params.values()))
-            # mlflow.run(
-            #     os.path.join(root_path, f"components/{component}"),
-            #     "main",
-            #     parameters = {
-            #         "mode": config["mode"],
-            #         **params
-            #     }
-            # )
+            # print(params)
+            module_name = 'components.'+component
+            module = importlib.import_module(module_name)
+            func = getattr(module,'go')
+            func(params)
+            break
+            # alt way to use subprocesses
+            # subprocess.call([f'./components/{component}.py', config['mode']] + list(params.values()))
+
 
 if __name__ == "__main__":
     go()
