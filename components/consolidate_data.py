@@ -5,12 +5,12 @@ from zipfile import ZipFile
 
 import pandas as pd
 
-from component_utils.general import create_artifact_folder
+# from component_utils.general import create_artifact_folder
 
 logger = logging.getLogger()
 
 
-def go(args):
+def consolidate_data(input):
     cols = [
         "Date", "Page Type", "Account Type", "Author", "Full Name", "Full Text", 
         "Gender", "Hashtags", "Impact", "Impressions", "Thread Entry Type", "Thread Author",
