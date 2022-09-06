@@ -18,12 +18,11 @@ def consolidate_data(input):
         "Twitter Verified", "Twitter Retweets", "Reach (new)", "Region"
     ]
 
-    artifact_path = create_artifact_folder(__file__)
+    artifact_path = 'artifacts'
 
     logger.info("Combining data files into single CSV...")
 
-
-    with ZipFile(args.input_path, "r") as zip: 
+    with ZipFile(input['input_path'], "r") as zip: 
         with open(artifact_path / "metoo_data.csv", "w") as outfile:
             outfile.write("\t".join(cols) + "\n")
             
