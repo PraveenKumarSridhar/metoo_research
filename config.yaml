@@ -3,7 +3,7 @@ main:
   project_name: metoo_research
   experiment_name: dev
   steps: all
-
+#TODO: add ouput path
 components:
   consolidate_data:
     input_path: ../../data/metoo_data.zip
