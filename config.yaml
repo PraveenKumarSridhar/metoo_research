@@ -10,31 +10,31 @@ components:
     samp_size: 1
 
   preprocess_data:
-    input_path: ../consolidate_data/artifacts/metoo_data.csv
+    input_path: ../artifacts/metoo_data.csv
     exclude: metoo,rt
 
   # infer_news:
-  #   input_path: ../preprocess_data/artifacts/metoo_data.csv
+  #   input_path: ../artifacts/metoo_data.csv
   #   train_size: 0.75
   #   random_state: 0
   #   vocab_size: 10000
 
   train_lda:
-    input_path: ../preprocess_data/artifacts/metoo_data.csv  
+    input_path: ../artifacts/metoo_data.csv  
     train_size: 0.75
     random_state: 0
     vocab_size: 50000
     no_below: 10
 
   append_topics:
-    model_path: ../train_lda/artifacts/lda_model_num_topics=20-decay=0.5
-    dict_path: ../train_lda/artifacts/dictionary
-    data_path: ../preprocess_data/artifacts/metoo_data.csv
+    model_path: ../artifacts/lda_model_num_topics=20-decay=0.5
+    dict_path: ../artifacts/dictionary
+    data_path: ../artifacts/metoo_data.csv
 
   infer_demographics:
-    input_path: ../consolidate_data/artifacts/metoo_data.csv
+    input_path: ../artifacts/metoo_data.csv
 
   postprocess_data:
-    input_path: ../append_topics/artifacts/metoo_topics.csv
-    demo_path: ../infer_demographics/artifacts/inferred_demographics.csv
+    input_path: ../artifacts/metoo_topics.csv
+    demo_path: ../artifacts/inferred_demographics.csv
     influencer_thresh: 20000
