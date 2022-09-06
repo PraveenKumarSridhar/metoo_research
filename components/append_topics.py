@@ -7,7 +7,6 @@ from gensim.utils import simple_preprocess
 from gensim.models.ldamulticore import LdaMulticore
 import pandas as pd
 
-from component_utils.general import create_artifact_folder
 
 logger = logging.getLogger()
 

@@ -5,7 +5,6 @@ from zipfile import ZipFile
 
 import pandas as pd
 
-# from component_utils.general import create_artifact_folder
 
 logger = logging.getLogger()
 

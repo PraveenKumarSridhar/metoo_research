@@ -5,7 +5,6 @@ import pandas as pd
 from gensim.utils import simple_preprocess
 import spacy
 
-from component_utils.general import create_artifact_folder
 
 logger = logging.getLogger()
 

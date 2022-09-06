@@ -12,8 +12,6 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 import pandas as pd
 
-from component_utils.general import create_artifact_folder
-
 
 def go(args):
     artifact_path = 'artifacts'

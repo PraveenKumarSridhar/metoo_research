@@ -7,7 +7,6 @@ from demographer.gender_neural import NeuralGenderDemographer
 import pandas as pd
 import numpy as np
 
-from component_utils.general import create_artifact_folder
 
 
 def get_demographics(user_data: pd.Series, models: List):
