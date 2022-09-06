@@ -3,9 +3,20 @@ import logging
 
 import hydra
 import importlib
+import os
+from pathlib import Path
+import shutil
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
+
+def create_artifact_folder(path):
+    artifact_path = Path(path) / "artifacts"
+    if os.path.exists(str(artifact_path)):
+        shutil.rmtree(str(artifact_path))
+
+    os.makedirs(artifact_path)
+    return
 
 @hydra.main(config_name="config", config_path = ".", version_base = None)
 def go(config):
@@ -19,6 +30,7 @@ def go(config):
     steps = config["main"]["steps"]
     to_run = steps.split(",") if steps != "all" else config["components"].keys()
 
+    create_artifact_folder('components')
     for component, params in config["components"].items():
         if component in to_run:
             logger.info(f"\n====> Running component: {component}\n")
