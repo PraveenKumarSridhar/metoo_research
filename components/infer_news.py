@@ -16,7 +16,7 @@ from component_utils.general import create_artifact_folder
 
 
 def go(args):
-    artifact_path = create_artifact_folder(__file__)
+    artifact_path = 'artifacts'
 
     data = pd.read_csv(args.input_path, sep = "\t")
     data["Full Text"] = data["Full Text"].fillna("")
