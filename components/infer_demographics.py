@@ -16,10 +16,10 @@ def get_demographics(user_data: pd.Series, models: List):
     return [preds["gender_neural"]["value"], preds["indorg_neural_full"]["value"]]
 
 
-def go(args):
-    artifact_path = create_artifact_folder(__file__)
+def go(input):
+    artifact_path = 'artifacts'
 
-    data = pd.read_csv(args.input_path, sep = "\t")
+    data = pd.read_csv(input['input_path'], sep = "\t")
 
     data["name"] = (
         data["Full Name"]
