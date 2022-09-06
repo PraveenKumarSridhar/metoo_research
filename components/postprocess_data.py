@@ -7,14 +7,14 @@ from component_utils.general import create_artifact_folder
 
 logger = logging.getLogger()
 
-def go(args):
-    artifact_path = create_artifact_folder(__file__)
+def go(input):
+    artifact_path = 'artifacts'
 
-    raw_data = pd.read_csv(args.input_path, sep = "\t", index_col = 0)
+    raw_data = pd.read_csv(input['input_path'], sep = "\t", index_col = 0)
     raw_data.drop(columns = ["Gender", "Account Type"], inplace = True)
     raw_data.rename(columns = {"Thread Entry Type": "Tweet Type"}, inplace = True)
 
-    demo = pd.read_csv(args.demo_path)
+    demo = pd.read_csv(input['demo_path'])
 
     news = pd.read_html("https://memeburn.com/2010/09/the-100-most-influential-news-media-twitter-accounts/", header = 0)[0]
     news["@name"] = news["@name"].str.replace("@", "").str.lower()
@@ -39,7 +39,7 @@ def go(args):
     companies_map = {k: "business" for k in companies.values}
 
     demo["Account Type"] = (
-        demo["followers_count"].apply(lambda x: "influencer" if x > args.influencer_thresh else "core")
+        demo["followers_count"].apply(lambda x: "influencer" if x > input['influencer_thresh'] else "core")
         .mask(demo["Account Type"] != "individual")
         .combine_first(demo["Account Type"])
     )
@@ -54,12 +54,12 @@ def go(args):
     
     data.to_csv(artifact_path / "metoo_data.csv", sep = "\t")
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
-    parser.add_argument("mode", type = str, help = "Run mode (local or remote)")
-    parser.add_argument("input_path", type = str, help = "Path to data")
-    parser.add_argument("demo_path", type = str, help = "Path to inferred author demographics")
-    parser.add_argument("influencer_thresh", type = int, help = "follower count threshold for influencer designation")
-    args = parser.parse_args()
+# if __name__ == "__main__":
+#     parser = ArgumentParser()
+#     parser.add_argument("mode", type = str, help = "Run mode (local or remote)")
+#     parser.add_argument("input_path", type = str, help = "Path to data")
+#     parser.add_argument("demo_path", type = str, help = "Path to inferred author demographics")
+#     parser.add_argument("influencer_thresh", type = int, help = "follower count threshold for influencer designation")
+#     args = parser.parse_args()
 
-    go(args)
+#     go(args)
