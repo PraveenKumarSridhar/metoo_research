@@ -11,15 +11,15 @@ from component_utils.general import create_artifact_folder
 
 logger = logging.getLogger()
 
-def go(args):
-    artifact_path = create_artifact_folder(__file__)
+def go(input):
+    artifact_path = 'artifacts'
 
-    data = pd.read_csv(args.data_path, sep = "\t", index_col = 0)
+    data = pd.read_csv(input['data_path'], sep = "\t", index_col = 0)
     data["Full Text"] = data["Full Text"].fillna("")
-    model = LdaMulticore.load(args.model_path)
+    model = LdaMulticore.load(input['model_path'])
 
     tokenized_data = [simple_preprocess(text) for text in data["Full Text"]]
-    with open(args.dict_path, "rb") as f:
+    with open(input['dict_path'], "rb") as f:
         dictionary = pickle.load(f)
 
     corpus = [dictionary.doc2bow(doc, allow_update=False) for doc in tokenized_data]
