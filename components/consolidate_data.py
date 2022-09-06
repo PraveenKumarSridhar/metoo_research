@@ -10,7 +10,7 @@ import pandas as pd
 logger = logging.getLogger()
 
 
-def consolidate_data(input):
+def go(input):
     cols = [
         "Date", "Page Type", "Account Type", "Author", "Full Name", "Full Text", 
         "Gender", "Hashtags", "Impact", "Impressions", "Thread Entry Type", "Thread Author",
@@ -21,7 +21,6 @@ def consolidate_data(input):
     artifact_path = 'artifacts'
 
     logger.info("Combining data files into single CSV...")
-
     with ZipFile(input['input_path'], "r") as zip: 
         with open(artifact_path / "metoo_data.csv", "w") as outfile:
             outfile.write("\t".join(cols) + "\n")
