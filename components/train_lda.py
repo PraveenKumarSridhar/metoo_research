@@ -24,11 +24,11 @@ gridsearch_params = {
     "decay": np.linspace(0.5, 0.9, 5)
 }
 
-def go(args):
-    artifact_path = create_artifact_folder(__file__)
+def go(input):
+    artifact_path = 'artifacts'
 
     logger.info("Reading data...")
-    data = pd.read_csv(args.input_path, sep = "\t", usecols = ["Full Text", "Thread Entry Type"])
+    data = pd.read_csv(input['input_path'], sep = "\t", usecols = ["Full Text", "Thread Entry Type"])
     data = data[data["Thread Entry Type"] != "share"]
     data["Full Text"] = data["Full Text"].fillna("")
 
@@ -36,7 +36,7 @@ def go(args):
     tokenized_data = [simple_preprocess(text) for text in data["Full Text"]]
 
     dictionary = corpora.Dictionary(tokenized_data)
-    dictionary.filter_extremes(no_below = args.no_below, keep_n = args.vocab_size)
+    dictionary.filter_extremes(no_below = input['no_below'], keep_n = input['vocab_size'])
 
     logger.info("Creating corpus...")
     corpus = [dictionary.doc2bow(doc, allow_update=False) for doc in tokenized_data]
@@ -44,8 +44,8 @@ def go(args):
     logger.info("Splitting train/test corpus...")
     X_train, X_test = train_test_split(
         corpus, 
-        random_state = args.random_state, 
-        train_size = args.train_size
+        random_state = input['random_state'], 
+        train_size = input['train_size']
     )
 
     grid = list(product(*gridsearch_params.values()))
@@ -57,7 +57,7 @@ def go(args):
         model = LdaMulticore(
             corpus = X_train, 
             id2word = dictionary, 
-            random_state = args.random_state,
+            random_state = input['random_state'],
             **grid_params
         )
 
@@ -78,14 +78,14 @@ def go(args):
     
   
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
-    parser.add_argument("mode", type = str, help = "Run mode (local or remote)")
-    parser.add_argument("input_path", type = str, help = "Path to input artifact")
-    parser.add_argument("train_size", type = float, help = "Portion of data to use for training")
-    parser.add_argument("random_state", type = int, help = "Seed for setting random state")   
-    parser.add_argument("vocab_size", type = int, help = "Max # of tokens to include in corpus")
-    parser.add_argument("no_below", type = int, help = "Min # of occurrences to include in corpus")  
-    args = parser.parse_args()
+# if __name__ == "__main__":
+#     parser = ArgumentParser()
+#     parser.add_argument("mode", type = str, help = "Run mode (local or remote)")
+#     parser.add_argument("input_path", type = str, help = "Path to input artifact")
+#     parser.add_argument("train_size", type = float, help = "Portion of data to use for training")
+#     parser.add_argument("random_state", type = int, help = "Seed for setting random state")   
+#     parser.add_argument("vocab_size", type = int, help = "Max # of tokens to include in corpus")
+#     parser.add_argument("no_below", type = int, help = "Min # of occurrences to include in corpus")  
+#     args = parser.parse_args()
 
-    go(args)
+#     go(args)
