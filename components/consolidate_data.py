@@ -30,11 +30,11 @@ def consolidate_data(input):
 
         to_compile = [f for f in zip.namelist() if r.match(f)]
 
-        if args.samp_size != -1:
-            to_compile = to_compile[:args.samp_size]
+        if input['samp_size'] != -1:
+            to_compile = to_compile[:input['samp_size']]
 
-        for file in to_compile:
-            data = pd.read_excel(zip.read(file), header = 6, usecols = cols, engine = "openpyxl")
+        for file_ in to_compile:
+            data = pd.read_excel(zip.read(file_), header = 6, usecols = cols, engine = "openpyxl")
             data = data[data["Page Type"] == "twitter"][cols] # Make sure we maintain the correct ordering!
             data.to_csv(
                 path_or_buf = artifact_path / "metoo_data.csv", 
