@@ -35,7 +35,6 @@ def go(config):
         params['artifact_path'] = artifact_path
         if component in to_run:
             logger.info(f"\n====> Running component: {component}\n")
-            # print(params)
             module_name = 'components.'+component
             module = importlib.import_module(module_name)
             func = getattr(module,'go')
