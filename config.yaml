@@ -3,13 +3,12 @@ main:
   project_name: metoo_research
   experiment_name: dev
   steps: all
-#TODO: add ouput path
 components:
   consolidate_data:
     input_path: ./data/metoo_data.zip
     output: consolidated_data.csv
     samp_size: 1
-
+#TODO: change i/p path everywhere and in scripts
   preprocess_data:
     input_path: ../artifacts/consolidated_data.csv
     output: preprocess_data.csv
