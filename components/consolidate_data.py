@@ -18,7 +18,7 @@ def go(input):
         "Twitter Verified", "Twitter Retweets", "Reach (new)", "Region"
     ]
 
-    artifact_path = Path('artifacts')
+    artifact_path = Path('components/artifacts')
 
     logger.info("Combining data files into single CSV...")
     with ZipFile(input['input_path'], "r") as zip: 
