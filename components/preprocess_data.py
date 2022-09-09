@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 import logging
-
+from pathlib import Path
 import pandas as pd
 from gensim.utils import simple_preprocess
 import spacy
@@ -10,7 +10,7 @@ logger = logging.getLogger()
 
 
 def go(input):
-    artifact_path = 'artifacts'
+    artifact_path = Path('artifacts')
 
     nlp = spacy.load("en_core_web_sm")
     sws = nlp.Defaults.stop_words

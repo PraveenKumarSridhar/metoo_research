@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 import logging
+from pathlib import Path
 
 import pandas as pd
 
@@ -7,7 +8,7 @@ import pandas as pd
 logger = logging.getLogger()
 
 def go(input):
-    artifact_path = 'artifacts'
+    artifact_path = Path('artifacts')
 
     raw_data = pd.read_csv(input['input_path'], sep = "\t", index_col = 0)
     raw_data.drop(columns = ["Gender", "Account Type"], inplace = True)

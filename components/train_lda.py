@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 from itertools import product
 import logging
 import pickle
-
+from pathlib import Path
 import nltk
 nltk.download("punkt", quiet = True)
 
@@ -24,7 +24,7 @@ gridsearch_params = {
 }
 
 def go(input):
-    artifact_path = 'artifacts'
+    artifact_path = Path('artifacts')
 
     logger.info("Reading data...")
     data = pd.read_csv(input['input_path'], sep = "\t", usecols = ["Full Text", "Thread Entry Type"])

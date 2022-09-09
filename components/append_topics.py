@@ -2,6 +2,8 @@ from argparse import ArgumentParser
 import logging
 import pickle
 
+from pathlib import Path
+
 import gensim
 from gensim.utils import simple_preprocess
 from gensim.models.ldamulticore import LdaMulticore
@@ -11,7 +13,7 @@ import pandas as pd
 logger = logging.getLogger()
 
 def go(input):
-    artifact_path = 'artifacts'
+    artifact_path = Path('artifacts')
 
     data = pd.read_csv(input['data_path'], sep = "\t", index_col = 0)
     data["Full Text"] = data["Full Text"].fillna("")

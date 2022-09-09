@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 from typing import List
+from pathlib import Path
 
 from demographer import process_tweet
 from demographer.indorg_neural import NeuralOrganizationDemographer
@@ -16,7 +17,7 @@ def get_demographics(user_data: pd.Series, models: List):
 
 
 def go(input):
-    artifact_path = 'artifacts'
+    artifact_path = Path('artifacts')
 
     data = pd.read_csv(input['input_path'], sep = "\t")
 
