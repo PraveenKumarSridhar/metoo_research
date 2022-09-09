@@ -6,7 +6,7 @@ main:
 #TODO: add ouput path
 components:
   consolidate_data:
-    input_path: ../../data/metoo_data.zip
+    input_path: ../data/metoo_data.zip
     output: consolidated_data.csv
     samp_size: 1
 
