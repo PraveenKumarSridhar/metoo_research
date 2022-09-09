@@ -33,7 +33,7 @@ def go(input):
 
     data[[f"topic_{i+1}" for i in range(model.num_topics)]] = tdf
 
-    data.to_csv(artifact_path / "metoo_topics.csv", sep = "\t")        
+    data.to_csv(artifact_path / input['output'], sep = "\t")        
    
 
 # if __name__ == "__main__":

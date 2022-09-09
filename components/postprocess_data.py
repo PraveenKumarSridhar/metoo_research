@@ -52,7 +52,7 @@ def go(input):
     data = raw_data.merge(right = demo, how = "left", left_on = "Author", right_on = "screen")
     data = data.merge(right = demo, how = "left", left_on = "Thread Author", right_on = "screen", suffixes = ("", "_originator"))
     
-    data.to_csv(artifact_path / "metoo_data.csv", sep = "\t")
+    data.to_csv(artifact_path / input['output'], sep = "\t")
 
 # if __name__ == "__main__":
 #     parser = ArgumentParser()

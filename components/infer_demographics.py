@@ -61,7 +61,7 @@ def go(input):
     authors["Gender"] = authors["Gender"].combine_first(authors["gender_inf"].map(gender_map))
     authors["Account Type"] = authors["Account Type"].combine_first(authors["indorg_inf"].map(indorg_map))
 
-    authors[["Gender", "Account Type", "followers_count"]].to_csv(artifact_path / "inferred_demographics.csv")
+    authors[["Gender", "Account Type", "followers_count"]].to_csv(artifact_path / input['output'])
 
 
 # if __name__ == "__main__":

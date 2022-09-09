@@ -36,7 +36,7 @@ def go(input):
             data = pd.read_excel(zip.read(file_), header = 6, usecols = cols, engine = "openpyxl")
             data = data[data["Page Type"] == "twitter"][cols] # Make sure we maintain the correct ordering!
             data.to_csv(
-                path_or_buf = artifact_path / "metoo_data.csv", 
+                path_or_buf = artifact_path / input['output'], 
                 sep = "\t", 
                 header = False, 
                 mode = "a", 

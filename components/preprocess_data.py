@@ -37,7 +37,7 @@ def go(input):
     )
 
 
-    data.to_csv(artifact_path / "metoo_data.csv", sep = "\t")
+    data.to_csv(artifact_path / input['output'], sep = "\t")
 
 # if __name__ == "__main__":
 #     parser = ArgumentParser()
