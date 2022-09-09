@@ -32,6 +32,7 @@ def go(config):
 
     artifact_path = create_artifact_folder('components')
     for component, params in config["components"].items():
+        params = dict(params)
         params['artifact_path'] = artifact_path
         if component in to_run:
             logger.info(f"\n====> Running component: {component}\n")
