@@ -10,35 +10,35 @@ components:
     samp_size: 1
 #TODO: change i/p path everywhere and in scripts
   preprocess_data:
-    input_path: ../artifacts/consolidated_data.csv
+    input_path: components/artifacts/consolidated_data.csv
     output: preprocess_data.csv
     exclude: metoo,rt
 
   # infer_news:
-  #   input_path: ../artifacts/preprocess_data.csv
+  #   input_path: components/artifacts/preprocess_data.csv
   #   train_size: 0.75
   #   random_state: 0
   #   vocab_size: 10000
 
   train_lda:
-    input_path: ../artifacts/preprocess_data.csv  
+    input_path: components/artifacts/preprocess_data.csv  
     train_size: 0.75
     random_state: 0
     vocab_size: 50000
     no_below: 10
 
   append_topics:
-    model_path: ../artifacts/lda_model_num_topics=20-decay=0.5
-    dict_path: ../artifacts/dictionary
-    data_path: ../artifacts/preprocess_data.csv
+    model_path: components/artifacts/lda_model_num_topics=20-decay=0.5
+    dict_path: components/artifacts/dictionary
+    data_path: components/artifacts/preprocess_data.csv
     output: append_topics.csv
 
   infer_demographics:
-    input_path: ../artifacts/preprocess_data.csv
+    input_path: components/artifacts/preprocess_data.csv
     output: inferred_demographics.csv
 
   postprocess_data:
-    input_path: ../artifacts/append_topics.csv
-    demo_path: ../artifacts/inferred_demographics.csv
+    input_path: components/artifacts/append_topics.csv
+    demo_path: components/artifacts/inferred_demographics.csv
     output: postprocess_data.csv
     influencer_thresh: 20000
