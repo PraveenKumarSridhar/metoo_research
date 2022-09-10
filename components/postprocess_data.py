@@ -52,13 +52,3 @@ def go(input):
     data = data.merge(right = demo, how = "left", left_on = "Thread Author", right_on = "screen", suffixes = ("", "_originator"))
     
     data.to_csv(artifact_path / input['output'], sep = "\t")
-
-# if __name__ == "__main__":
-#     parser = ArgumentParser()
-#     parser.add_argument("mode", type = str, help = "Run mode (local or remote)")
-#     parser.add_argument("input_path", type = str, help = "Path to data")
-#     parser.add_argument("demo_path", type = str, help = "Path to inferred author demographics")
-#     parser.add_argument("influencer_thresh", type = int, help = "follower count threshold for influencer designation")
-#     args = parser.parse_args()
-
-#     go(args)

@@ -50,15 +50,3 @@ def go(args):
     print(cnf)
 
     news_inf.to_csv(artifact_path / "news.csv")
-
-
-if __name__ == "__main__":
-    parser = ArgumentParser()
-    parser.add_argument("mode", type = str, help = "Run mode (local or remote)")
-    parser.add_argument("input_path", type = str, help = "Path to input data (.zip)")
-    parser.add_argument("vocab_size", type = int, help = "Max. # of words to include in corpus")
-    parser.add_argument("train_size", type = float, help = "Portion of input data to use in training")
-    parser.add_argument("random_state", type = int, help = "Seed for setting random state")
-    args = parser.parse_args()
-
-    go(args)

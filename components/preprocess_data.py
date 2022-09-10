@@ -39,12 +39,3 @@ def go(input):
 
 
     data.to_csv(artifact_path / input['output'], sep = "\t")
-
-# if __name__ == "__main__":
-#     parser = ArgumentParser()
-#     parser.add_argument("mode", type = str, help = "Run mode (local or remote)")
-#     parser.add_argument("input_path", type = str, help = "Path to input data (.zip)") 
-#     parser.add_argument("exclude", type = str, default = "", help = "Additional (comma-separated) stopwords to exclude")       
-#     args = parser.parse_args()
-
-#     go(args)

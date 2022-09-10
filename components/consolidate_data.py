@@ -43,11 +43,3 @@ def go(input):
                 index = False
             )
 
-
-# if __name__ == "__main__":
-#     parser = ArgumentParser()
-#     parser.add_argument("mode", type = str, help = "Run mode (local or remote)")
-#     parser.add_argument("input_path", type = str, help = "Path to input data (.zip)") 
-#     parser.add_argument("--samp_size", type = int, required = False, default = None, help = "Number of files to sample data from")     
-#     args = parser.parse_args()
-#     go(args)
