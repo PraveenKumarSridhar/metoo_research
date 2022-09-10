@@ -16,7 +16,7 @@ def create_artifact_folder(path):
         shutil.rmtree(str(artifact_path))
 
     os.makedirs(artifact_path)
-    return artifact_path
+    return
 
 @hydra.main(config_name="config", config_path = ".", version_base = None)
 def go(config):
@@ -30,10 +30,8 @@ def go(config):
     steps = config["main"]["steps"]
     to_run = steps.split(",") if steps != "all" else config["components"].keys()
 
-    artifact_path = create_artifact_folder('components')
+    create_artifact_folder('components')
     for component, params in config["components"].items():
-        params = dict(params)
-        params['artifact_path'] = artifact_path
         if component in to_run:
             logger.info(f"\n====> Running component: {component}\n")
             module_name = 'components.'+component
