@@ -22,7 +22,7 @@ def go(input):
 
     logger.info("Combining data files into single CSV...")
     with ZipFile(input['input_path'], "r") as zip: 
-        with open(artifact_path / "metoo_data.csv", "w") as outfile:
+        with open(artifact_path / input['output'], "w") as outfile:
             outfile.write("\t".join(cols) + "\n")
             
         r = re.compile("^All Raw Data\/.{1,}\.xlsx$")
