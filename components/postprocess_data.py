@@ -19,7 +19,7 @@ def go(input):
     news["@name"] = news["@name"].str.replace("@", "").str.lower()
     news_users = {u.lower(): "news" for u in news["@name"]}
 
-    brands_df = pd.read_excel("../../data/brandfulllist.xlsx", sheet_name = "All 1558", usecols = ["Twitter Handle"])
+    brands_df = pd.read_excel(input['brand_path'], sheet_name = "All 1558", usecols = ["Twitter Handle"])
     brands = (
         brands_df[brands_df["Twitter Handle"] != "NOT AVAILABLE"]
         ["Twitter Handle"]
@@ -28,7 +28,7 @@ def go(input):
     )
     brands_map = {k: "business" for k in brands.values}
 
-    companies_df = pd.read_excel("../../data/companyfulllist.xlsx", usecols = ["TwitterHandle", "TwitterHandle2"])
+    companies_df = pd.read_excel(input['comp_path'], usecols = ["TwitterHandle", "TwitterHandle2"])
     companies = (
         pd.concat([companies_df["TwitterHandle"], companies_df["TwitterHandle2"]], axis = 0)
         .dropna()
