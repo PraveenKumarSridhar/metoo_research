@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 import logging
 import re
 from zipfile import ZipFile
+from pathlib import Path
 
 import pandas as pd
 
@@ -17,7 +18,7 @@ def go(input):
         "Twitter Verified", "Twitter Retweets", "Reach (new)", "Region"
     ]
 
-    artifact_path = input['artifact_path']
+    artifact_path = Path('components/artifacts/')
 
     logger.info("Combining data files into single CSV...")
     with ZipFile(input['input_path'], "r") as zip: 

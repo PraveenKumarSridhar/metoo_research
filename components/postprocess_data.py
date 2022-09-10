@@ -1,12 +1,13 @@
 from argparse import ArgumentParser
 import logging
 import pandas as pd
+from pathlib import Path
 
 
 logger = logging.getLogger()
 
 def go(input):
-    artifact_path = input['artifact_path']
+    artifact_path = Path('components/artifacts/')
 
     raw_data = pd.read_csv(input['input_path'], sep = "\t", index_col = 0)
     raw_data.drop(columns = ["Gender", "Account Type"], inplace = True)

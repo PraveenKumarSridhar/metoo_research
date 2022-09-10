@@ -4,6 +4,8 @@ from demographer import process_tweet
 from demographer.indorg_neural import NeuralOrganizationDemographer
 from demographer.gender_neural import NeuralGenderDemographer
 import pandas as pd
+from pathlib import Path
+
 import numpy as np
 
 
@@ -15,7 +17,7 @@ def get_demographics(user_data: pd.Series, models: List):
 
 
 def go(input):
-    artifact_path = input['artifact_path']
+    artifact_path = Path('components/artifacts/')
 
     data = pd.read_csv(input['input_path'], sep = "\t")
 

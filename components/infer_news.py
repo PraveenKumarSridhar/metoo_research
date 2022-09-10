@@ -11,10 +11,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import confusion_matrix
 import numpy as np
 import pandas as pd
+from pathlib import Path
+
 
 
 def go(args):
-    artifact_path = 'artifacts'
+    artifact_path = Path('components/artifacts/')
 
     data = pd.read_csv(args.input_path, sep = "\t")
     data["Full Text"] = data["Full Text"].fillna("")

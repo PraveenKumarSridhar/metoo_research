@@ -3,13 +3,15 @@ import logging
 import pandas as pd
 from gensim.utils import simple_preprocess
 import spacy
+from pathlib import Path
+
 
 
 logger = logging.getLogger()
 
 
 def go(input):
-    artifact_path = input['artifact_path']
+    artifact_path = Path('components/artifacts/')
 
     nlp = spacy.load("en_core_web_sm")
     sws = nlp.Defaults.stop_words

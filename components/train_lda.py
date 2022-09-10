@@ -13,6 +13,8 @@ from gensim import corpora
 from gensim.utils import simple_preprocess
 import numpy as np
 import pandas as pd
+from pathlib import Path
+
 
 
 logger = logging.getLogger()
@@ -23,7 +25,7 @@ gridsearch_params = {
 }
 
 def go(input):
-    artifact_path = input['artifact_path']
+    artifact_path = Path('components/artifacts/')
 
     logger.info("Reading data...")
     data = pd.read_csv(input['input_path'], sep = "\t", usecols = ["Full Text", "Thread Entry Type"])
