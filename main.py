@@ -40,6 +40,7 @@ def go(config):
             func(params)
             # alt way to use subprocesses
             # subprocess.call([f'./components/{component}.py', config['mode']] + list(params.values()))
+    logger.info(f"\n====> Completed running : {steps} successfully\n")
 
 
 if __name__ == "__main__":
