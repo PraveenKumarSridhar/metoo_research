@@ -5,4 +5,5 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/append_topics-%j.out
 source ~/miniconda3/bin/activate
-mlflow run . -P steps=append_topics
+conda activate main
+python main.py main.steps=append_topics

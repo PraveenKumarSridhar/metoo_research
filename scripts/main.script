@@ -6,4 +6,5 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/main-%j.out
 source ~/miniconda3/bin/activate
-mlflow run . #update scripts python main.py
+conda activate main
+python main.py

@@ -5,4 +5,5 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/infer_demographics-%j.out
 source ~/miniconda3/bin/activate
-mlflow run . -P steps=infer_demographics
+conda activate main
+python main.py main.steps=infer_demographics
