@@ -10,9 +10,9 @@ import shutil
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
 
-def create_artifact_folder(path):
+def create_artifact_folder(path, all_flag=True):
     artifact_path = Path(path) / "artifacts"
-    if os.path.exists(str(artifact_path)):
+    if os.path.exists(str(artifact_path)) and all_flag:
         shutil.rmtree(str(artifact_path))
 
     os.makedirs(artifact_path)
@@ -30,7 +30,7 @@ def go(config):
     steps = config["main"]["steps"]
     to_run = steps.split(",") if steps != "all" else config["components"].keys()
 
-    create_artifact_folder('components')
+    create_artifact_folder('components', steps=='all')
     for component, params in config["components"].items():
         if component in to_run:
             logger.info(f"\n====> Running component: {component}\n")
