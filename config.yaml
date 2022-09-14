@@ -7,8 +7,8 @@ components:
   consolidate_data:
     input_path: ./data/metoo_data.zip
     output: consolidated_data.csv
-    samp_size: 1
-#TODO: change i/p path everywhere and in scripts
+    samp_size: -1
+
   preprocess_data:
     input_path: components/artifacts/consolidated_data.csv
     output: preprocess_data.csv
