@@ -58,7 +58,7 @@ def go(input):
     res = []
 
     for grid_params in [{k: v for k, v in zip(keys, combo)} for combo in grid]:
-        logger.info(f"Training model with params {grid_params}...")
+        # logger.info(f"Training model with params {grid_params}...")
         model = LdaMulticore(
             corpus = X_train, 
             id2word = dictionary, 
