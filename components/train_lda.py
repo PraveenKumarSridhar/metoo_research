@@ -20,8 +20,8 @@ from pathlib import Path
 logger = logging.getLogger()
 
 gridsearch_params = {
-    "num_topics": np.arange(5, 40, 5),
-    "decay": np.linspace(0.5, 0.9, 5),
+    "num_topics": np.arange(5, 20, 5),
+    # "decay": np.linspace(0.5, 0.9, 5),
     # Alpha parameter
     "alpha" : list(np.arange(0.01, 1, 0.3)) +['symmetric','asymmetric'],
     # Beta parameter
