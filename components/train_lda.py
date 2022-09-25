@@ -9,6 +9,7 @@ from nltk.tokenize import word_tokenize
 from sklearn.model_selection import train_test_split
 
 from gensim.models.ldamulticore import LdaMulticore
+from gensim.models import CoherenceModel
 from gensim import corpora
 from gensim.utils import simple_preprocess
 import numpy as np
@@ -67,10 +68,14 @@ def go(input):
 
         model_perp = model.log_perplexity(X_test)
 
+        coherence_model_lda = CoherenceModel(model=model, texts=tokenized_data, dictionary=dictionary, coherence='c_v')
+        model_coherence = model.get_coherence()
+
+
         model_name = "-".join([f"{k}={v}" for k, v in grid_params.items()])
         model.save(str(artifact_path / f"lda_model_{model_name}"))
 
-        grid_params.update({"log_perp": model_perp})
+        grid_params.update({"log_perp": model_perp,"topic coherence":model_coherence})
         res.append(grid_params)
 
     logger.info("Saving grid search results to file...")
