@@ -25,7 +25,7 @@ gridsearch_params = {
     # Alpha parameter
     "alpha" : list(np.arange(0.01, 1, 0.3)) +['symmetric','asymmetric'],
     # Beta parameter
-    "beta" : list(np.arange(0.01, 1, 0.3)) + ['symmetric']
+    "eta" : list(np.arange(0.01, 1, 0.3)) + ['symmetric']
 }
 
 def go(input):
