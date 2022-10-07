@@ -21,14 +21,14 @@ components:
   #   vocab_size: 10000
 
   train_lda:
-    input_path: components/artifacts/preprocess_data.csv  
+    input_path: ./data/preprocess_data.csv  
     train_size: 0.75
     random_state: 0
     vocab_size: 50000
     no_below: 10
 
   append_topics:
-    model_path: components/artifacts/lda_model_num_topics=20-decay=0.5
+    model_path: components/artifacts/lda_model_num_topics=10-alpha=0.01-eta=0.31
     dict_path: components/artifacts/dictionary
     data_path: components/artifacts/preprocess_data.csv
     output: append_topics.csv
