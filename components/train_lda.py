@@ -23,9 +23,9 @@ logger = logging.getLogger()
 gridsearch_params = {
     "num_topics": np.arange(10, 25, 5),
     # Alpha parameter
-    "alpha" : list(np.arange(0, 1, 0.2)) ,#+['symmetric','asymmetric'],
+    "alpha" : list(np.arange(0.01, 1, 0.2)) ,#+['symmetric','asymmetric'],
     # Beta parameter
-    "eta" : list(np.arange(0, 1, 0.2)) ,#+ ['symmetric']
+    "eta" : list(np.arange(0.01, 1, 0.2)) ,#+ ['symmetric']
 }
 
 def go(input):
