@@ -1,0 +1,10 @@
+#!/bin/bash
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=8
+#SBATCH --time=08:00:00
+#SBATCH --partition=short
+#SBATCH --mem=50G
+#SBATCH --output=runs/train_lda-%j.out
+source ~/miniconda3/bin/activate
+conda activate main
+python main.py main.steps=train_lda,append_topics,infer_demographics,postprocess_data
