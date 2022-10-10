@@ -7,4 +7,4 @@
 #SBATCH --output=runs/train_lda-%j.out
 source ~/miniconda3/bin/activate
 conda activate main
-python main.py main.steps=train_lda,append_topics,infer_demographics,postprocess_data
+python main.py main.steps='train_lda,append_topics,infer_demographics,postprocess_data'
