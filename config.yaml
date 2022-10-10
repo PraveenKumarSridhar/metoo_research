@@ -21,7 +21,7 @@ components:
   #   vocab_size: 10000
 
   train_lda:
-    input_path: ./data/preprocess_data.csv  
+    input_path: components/artifacts/preprocess_data.csv  
     train_size: 0.75
     random_state: 0
     vocab_size: 50000
