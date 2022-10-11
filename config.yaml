@@ -28,7 +28,7 @@ components:
     no_below: 10
 
   append_topics:
-    model_path: components/artifacts/lda_model_num_topics=10-alpha=0.01-eta=0.31
+    model_path: components/artifacts/lda_model_num_topics=10-alpha=0.01-eta=0.21000000000000002
     dict_path: components/artifacts/dictionary
     data_path: components/artifacts/preprocess_data.csv
     output: append_topics.csv
