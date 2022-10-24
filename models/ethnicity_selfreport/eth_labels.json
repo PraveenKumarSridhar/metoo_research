@@ -1,0 +1,1 @@
+{"_v2i": {"White": 0, "Black": 1, "Asian": 3, "Hispanic": 2}, "_labels": {}, "_i2v": {"0": "White", "1": "Black", "2": "Hispanic", "3": "Asian"}, "_freq": {"Black": 738, "Hispanic": 234, "White": 1098, "Asian": 67}, "_unk": null, "_labelset": [], "_total_count": 2137, "_labeled": false, "_frozen": true}
