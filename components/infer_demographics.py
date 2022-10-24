@@ -3,6 +3,7 @@ from typing import List
 from demographer import process_tweet
 from demographer.indorg_neural import NeuralOrganizationDemographer
 from demographer.gender_neural import NeuralGenderDemographer
+from demographer.ethnicity_selfreport_neural import EthSelfReportNeuralDemographer
 import pandas as pd
 from pathlib import Path
 
@@ -50,10 +51,11 @@ def go(input):
 
     models = [
         NeuralOrganizationDemographer(setup = "full"),
-        NeuralGenderDemographer()
+        NeuralGenderDemographer(),
+        EthSelfReportNeuralDemographer(balanced=True, model_dir = '.\models\ethnicity_selfreport')
     ]
 
-    authors[["gender_inf", "indorg_inf"]] = (
+    authors[["gender_inf", "indorg_inf",'ethnicity']] = (
         authors[["name", "followers_count", "friends_count", "statuses_count", "verified"]]
         .apply(get_demographics, axis = 1, models = models, result_type = "expand")
     )
