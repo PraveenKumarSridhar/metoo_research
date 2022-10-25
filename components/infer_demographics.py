@@ -52,7 +52,7 @@ def go(input):
     models = [
         NeuralOrganizationDemographer(setup = "full"),
         NeuralGenderDemographer(),
-        EthSelfReportNeuralDemographer(balanced=True, model_dir = './models/ethnicity_selfreport')
+        EthSelfReportNeuralDemographer(balanced=True)
     ]
 
     authors[["gender_inf", "indorg_inf",'ethnicity']] = (
