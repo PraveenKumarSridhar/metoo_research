@@ -14,7 +14,7 @@ import numpy as np
 
 def setup_ethnicity_models():
     from_directory = './models/'
-    to_directory = ' ~/miniconda3/envs/main/lib/python3.7/site-packages/demographer/models/'
+    to_directory = '~/miniconda3/envs/main/lib/python3.7/site-packages/demographer/models/'
     if 'ethnicity_selfreport' not in os.listdir(to_directory):
         copy_tree(from_directory, to_directory)
 
