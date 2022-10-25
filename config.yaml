@@ -34,6 +34,7 @@ components:
     output: append_topics.csv
 
   infer_demographics:
+    conda_env_path: /home/sridhar.p/miniconda3
     input_path: components/artifacts/preprocess_data.csv
     output: inferred_demographics.csv
 
