@@ -22,7 +22,7 @@ def setup_ethnicity_models():
 def get_demographics(user_data: pd.Series, models: List):
     preds = process_tweet({"user": user_data.dropna().to_dict()}, demographers = models)
 
-    return [preds["gender_neural"]["value"], preds["indorg_neural_full"]["value"]]
+    return [preds["gender_neural"]["value"], preds["indorg_neural_full"]["value"], preds['eth_selfreport_neural']['value']]
 
 
 def go(input):
