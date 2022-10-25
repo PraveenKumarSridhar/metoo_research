@@ -55,7 +55,8 @@ def go(input):
             "Twitter Followers": "followers_count", 
             "Twitter Following": "friends_count",
             "Twitter Verified": "verified",
-            "Twitter Tweets": "statuses_count"
+            "Twitter Tweets": "statuses_count",
+            "Date": "created_at"
             }
         )
     )
