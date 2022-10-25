@@ -63,6 +63,7 @@ def go(input):
 
     authors.index.name = "screen"
     authors['listed_count'] = 0
+    authors['created_at'] = '2017-12-06 23:59:59.0'
     models = [
         NeuralOrganizationDemographer(setup = "full"),
         NeuralGenderDemographer(),
