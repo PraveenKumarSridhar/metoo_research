@@ -12,9 +12,9 @@ import os
 
 import numpy as np
 
-def setup_ethnicity_models():
+def setup_ethnicity_models(conda_env_path):
     from_directory = './models/'
-    to_directory = '/home/sridhar.p/miniconda3/envs/main/lib/python3.7/site-packages/demographer/models/'
+    to_directory = conda_env_path + '/envs/main/lib/python3.7/site-packages/demographer/models/'
     if 'ethnicity_selfreport' not in os.listdir(to_directory):
         copy_tree(from_directory, to_directory)
 
@@ -27,7 +27,7 @@ def get_demographics(user_data: pd.Series, models: List):
 
 def go(input):
     logger.info('Starting set up for demographer')
-    setup_ethnicity_models()
+    setup_ethnicity_models(input['conda_env_path'])
     logger.info('Completed set up for demographer')
 
 
@@ -61,7 +61,7 @@ def go(input):
     )
 
     authors.index.name = "screen"
-
+    authors['listed_count'] = 0
     models = [
         NeuralOrganizationDemographer(setup = "full"),
         NeuralGenderDemographer(),
@@ -69,7 +69,7 @@ def go(input):
     ]
 
     authors[["gender_inf", "indorg_inf",'ethnicity']] = (
-        authors[["name", "followers_count", "friends_count", "statuses_count", "verified"]]
+        authors[["name", "followers_count", "friends_count", "statuses_count", "verified","listed_count"]]
         .apply(get_demographics, axis = 1, models = models, result_type = "expand")
     )
 
