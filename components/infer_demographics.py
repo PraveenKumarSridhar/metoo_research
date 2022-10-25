@@ -70,7 +70,7 @@ def go(input):
     ]
 
     authors[["gender_inf", "indorg_inf",'ethnicity']] = (
-        authors[["name", "followers_count", "friends_count", "statuses_count", "verified","listed_count"]]
+        authors[["name", "followers_count", "friends_count", "statuses_count", "verified","listed_count","created_at"]]
         .apply(get_demographics, axis = 1, models = models, result_type = "expand")
     )
 
