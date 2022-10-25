@@ -8,7 +8,7 @@ from demographer.ethnicity_selfreport_neural import EthSelfReportNeuralDemograph
 import pandas as pd
 from pathlib import Path
 from distutils.dir_util import copy_tree
-import os
+import os, datetime
 
 import numpy as np
 
@@ -63,7 +63,8 @@ def go(input):
 
     authors.index.name = "screen"
     authors['listed_count'] = 0
-    authors['created_at'] = '2017-12-06 23:59:59.0'
+    authors['created_at'] = authors['created_at']\
+        .apply(lambda x: datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').strftime('%a %b %d %H:%M:%S +0000 %Y'))
     models = [
         NeuralOrganizationDemographer(setup = "full"),
         NeuralGenderDemographer(),
