@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from asyncio.log import logger
 from typing import List
 from demographer import process_tweet
 from demographer.indorg_neural import NeuralOrganizationDemographer
@@ -6,9 +7,16 @@ from demographer.gender_neural import NeuralGenderDemographer
 from demographer.ethnicity_selfreport_neural import EthSelfReportNeuralDemographer
 import pandas as pd
 from pathlib import Path
+from distutils.dir_util import copy_tree
+import os
 
 import numpy as np
 
+def setup_ethnicity_models():
+    from_directory = './models/'
+    to_directory = ' ~/miniconda3/envs/main/lib/python3.7/site-packages/demographer/models/'
+    if 'ethnicity_selfreport' not in os.listdir(to_directory):
+        copy_tree(from_directory, to_directory)
 
 
 def get_demographics(user_data: pd.Series, models: List):
@@ -18,6 +26,11 @@ def get_demographics(user_data: pd.Series, models: List):
 
 
 def go(input):
+    logger.info('Starting set up for demographer')
+    setup_ethnicity_models()
+    logger.info('Completed set up for demographer')
+
+
     artifact_path = Path('components/artifacts/')
 
     data = pd.read_csv(input['input_path'], sep = "\t")
