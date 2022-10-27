@@ -47,6 +47,8 @@ def go(input):
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(news_users).combine_first(demo["Account Type"])
     demo["Gender"] = demo["Gender"].mask(~demo["Account Type"].isin(["core", "influencer"]))
+    demo["Ethnicity"] = demo["Ethnicity"].mask(~demo["Account Type"].isin(["core", "influencer"]))
+
 
     data = raw_data.merge(right = demo, how = "left", left_on = "Author", right_on = "screen")
     data = data.merge(right = demo, how = "left", left_on = "Thread Author", right_on = "screen", suffixes = ("", "_originator"))
