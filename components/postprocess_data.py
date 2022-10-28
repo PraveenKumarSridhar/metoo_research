@@ -20,9 +20,10 @@ def go(input):
     demo = pd.read_csv(input['demo_path'])
 
     # news = pd.read_html("https://memeburn.com/2010/09/the-100-most-influential-news-media-twitter-accounts/", header = 0)[0]
-    news = pd.read_csv(r'../data/news_outlets-accounts.csv')
+    news = pd.read_csv(r'./data/news_outlets-accounts.csv')
     news_id_list = [news_.lower() for news_ in news['Token'].tolist()]
-    celeb_data = pd.read_csv(r'../data/celebrity.csv')
+
+    celeb_data = pd.read_csv(r'./data/celebrity.csv')
     celeb_map = {u.lower(): "celebrity" for u in celeb_data["twitter"]}
     # news["@name"] = news["@name"].str.replace("@", "").str.lower()
     # news_users = {u.lower(): "news" for u in news["@name"]}
