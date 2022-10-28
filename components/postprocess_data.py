@@ -6,6 +6,10 @@ from pathlib import Path
 
 logger = logging.getLogger()
 
+def news_iden_imp_heu(author, acc_type, news_id_list):
+    auth_heuristics = 'news' in str(author).lower() or author in news_id_list
+    return 'news' if auth_heuristics else acc_type
+
 def go(input):
     artifact_path = Path('components/artifacts/')
 
@@ -15,9 +19,11 @@ def go(input):
 
     demo = pd.read_csv(input['demo_path'])
 
-    news = pd.read_html("https://memeburn.com/2010/09/the-100-most-influential-news-media-twitter-accounts/", header = 0)[0]
-    news["@name"] = news["@name"].str.replace("@", "").str.lower()
-    news_users = {u.lower(): "news" for u in news["@name"]}
+    # news = pd.read_html("https://memeburn.com/2010/09/the-100-most-influential-news-media-twitter-accounts/", header = 0)[0]
+    news = pd.read_csv(r'../data/news_outlets-accounts.csv')
+    news_id_list = [news_.lower() for news_ in news['Token'].tolist()]
+    # news["@name"] = news["@name"].str.replace("@", "").str.lower()
+    # news_users = {u.lower(): "news" for u in news["@name"]}
 
     brands_df = pd.read_excel(input['brand_path'], sheet_name = "All 1558", usecols = ["Twitter Handle"])
     brands = (
@@ -45,7 +51,7 @@ def go(input):
 
     demo["Account Type"] = demo["screen"].str.lower().map(brands_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
-    demo["Account Type"] = demo["screen"].str.lower().map(news_users).combine_first(demo["Account Type"])
+    demo["Account Type"] = demo[["screen","Account Type"]].apply(lambda x: news_iden_imp_heu(x[0], x[1], news_id_list))
     demo["Gender"] = demo["Gender"].mask(~demo["Account Type"].isin(["core", "influencer"]))
     demo["Ethnicity"] = demo["Ethnicity"].mask(~demo["Account Type"].isin(["core", "influencer"]))
 
