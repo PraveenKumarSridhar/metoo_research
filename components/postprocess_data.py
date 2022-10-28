@@ -46,12 +46,12 @@ def go(input):
     )
     companies_map = {k: "business" for k in companies.values}
 
-    demo["Account Type"] = demo["screen"].str.lower().map(celeb_map).combine_first(demo["Account Type"])
     demo["Account Type"] = (
         demo["followers_count"].apply(lambda x: "influencer" if x > input['influencer_thresh'] else "core")
         .mask(~demo["Account Type"].isin(["individual"])) # if induvidual do this else keep the already acc type
         .combine_first(demo["Account Type"])
     )
+    demo["Account Type"] = demo["screen"].str.lower().map(celeb_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(brands_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo[["screen","Account Type"]].apply(lambda x: news_iden_imp_heu(x[0], x[1], news_id_list))
