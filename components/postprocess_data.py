@@ -22,6 +22,8 @@ def go(input):
     # news = pd.read_html("https://memeburn.com/2010/09/the-100-most-influential-news-media-twitter-accounts/", header = 0)[0]
     news = pd.read_csv(r'../data/news_outlets-accounts.csv')
     news_id_list = [news_.lower() for news_ in news['Token'].tolist()]
+    celeb_data = pd.read_csv(r'../data/celebrity.csv')
+    celeb_map = {u.lower(): "celebrity" for u in celeb_data["twitter"]}
     # news["@name"] = news["@name"].str.replace("@", "").str.lower()
     # news_users = {u.lower(): "news" for u in news["@name"]}
 
@@ -43,12 +45,12 @@ def go(input):
     )
     companies_map = {k: "business" for k in companies.values}
 
+    demo["Account Type"] = demo["screen"].str.lower().map(celeb_map).combine_first(demo["Account Type"])
     demo["Account Type"] = (
         demo["followers_count"].apply(lambda x: "influencer" if x > input['influencer_thresh'] else "core")
-        .mask(demo["Account Type"] != "individual")
+        .mask(~demo["Account Type"].isin(["individual"])) # if induvidual do this else keep the already acc type
         .combine_first(demo["Account Type"])
     )
-
     demo["Account Type"] = demo["screen"].str.lower().map(brands_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo[["screen","Account Type"]].apply(lambda x: news_iden_imp_heu(x[0], x[1], news_id_list))
