@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 from asyncio.log import logger
 from typing import List
+import demographer
 from demographer import process_tweet
 from demographer.indorg_neural import NeuralOrganizationDemographer
 from demographer.gender_neural import NeuralGenderDemographer
@@ -12,9 +13,9 @@ import os, datetime
 
 import numpy as np
 
-def setup_ethnicity_models(conda_env_path):
+def setup_ethnicity_models():
     from_directory = './models/'
-    to_directory = conda_env_path + '/envs/main/lib/python3.7/site-packages/demographer/models/'
+    to_directory = demographer.__path__[0]+'/models/'
     if 'ethnicity_selfreport' not in os.listdir(to_directory):
         copy_tree(from_directory, to_directory)
 
@@ -27,7 +28,7 @@ def get_demographics(user_data: pd.Series, models: List):
 
 def go(input):
     logger.info('Starting set up for demographer')
-    setup_ethnicity_models(input['conda_env_path'])
+    setup_ethnicity_models()
     logger.info('Completed set up for demographer')
 
 
@@ -71,7 +72,7 @@ def go(input):
         EthSelfReportNeuralDemographer(balanced=True)
     ]
 
-    authors[["gender_inf", "indorg_inf",'ethnicity']] = (
+    authors[["gender_inf", "indorg_inf",'Ethnicity']] = (
         authors[["name", "followers_count", "friends_count", "statuses_count", "verified","listed_count","created_at"]]
         .apply(get_demographics, axis = 1, models = models, result_type = "expand")
     )
