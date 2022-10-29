@@ -54,7 +54,7 @@ def go(input):
     demo["Account Type"] = demo["screen"].str.lower().map(celeb_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(brands_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
-    demo["Account Type"] = demo[["screen","Account Type"]].apply(lambda x: news_iden_imp_heu(x[0], x[1], news_id_list))
+    demo["Account Type"] = demo[["screen","Account Type"]].apply(lambda x: news_iden_imp_heu(x[0], x[1], news_id_list),axis=1)
     demo["Gender"] = demo["Gender"].mask(~demo["Account Type"].isin(["core", "influencer"]))
     demo["Ethnicity"] = demo["Ethnicity"].mask(~demo["Account Type"].isin(["core", "influencer"]))
 
