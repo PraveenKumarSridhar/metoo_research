@@ -6,4 +6,4 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/main-%j.out
 source ~/miniconda3/bin/activate
-conda env create --file conda.yaml
+conda env create --file conda.yaml      
