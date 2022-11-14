@@ -21,3 +21,4 @@ dependencies:
     - openpyxl
     - lxml
     - transformers
+    - torch
