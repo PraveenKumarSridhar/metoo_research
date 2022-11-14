@@ -1,4 +1,4 @@
-name: main
+name: main_v2
 channels:
   - conda-forge
   - defaults
@@ -20,4 +20,4 @@ dependencies:
     - gensim
     - openpyxl
     - lxml
-    - ./components/component_utils
+    - transformers
