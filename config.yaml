@@ -33,13 +33,17 @@ components:
     dict_path: components/artifacts/dictionary
     data_path: components/artifacts/preprocess_data.csv
     output: append_topics.csv
+  
+  infer_sentiment:
+    input_path: components/artifacts/append_topics.csv 
+    output: infer_sentiment.csv
 
   infer_demographics:
     input_path: components/artifacts/preprocess_data.csv
     output: inferred_demographics.csv
 
   postprocess_data:
-    input_path: components/artifacts/append_topics.csv
+    input_path: components/artifacts/infer_sentiment.csv
     brand_path: ./data/brandfulllist.xlsx
     comp_path: ./data/companyfulllist.xlsx
     demo_path: components/artifacts/inferred_demographics.csv
