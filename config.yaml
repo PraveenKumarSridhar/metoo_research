@@ -26,6 +26,7 @@ components:
     random_state: 0
     vocab_size: 50000
     no_below: 10
+    grid_search: False
 
   append_topics:
     model_path: components/artifacts/lda_model_num_topics=10-alpha=0.01-eta=0.21000000000000002

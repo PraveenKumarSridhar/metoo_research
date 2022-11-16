@@ -52,11 +52,16 @@ def go(input):
         train_size = input['train_size']
     )
 
-    grid = list(product(*gridsearch_params.values()))
-    keys = gridsearch_params.keys()
+    if input['grid_search']:
+        grid = list(product(*gridsearch_params.values()))
+        keys = gridsearch_params.keys()
+        grid_combos = [{k: v for k, v in zip(keys, combo)} for combo in grid]
+    else:
+        grid_combos = [10, 0.01, 0.21000000000000002]
+        
     res = []
 
-    for grid_params in [{k: v for k, v in zip(keys, combo)} for combo in grid]:
+    for grid_params in grid_combos:
         # logger.info(f"Training model with params {grid_params}...")
         model = LdaMulticore(
             corpus = X_train, 
