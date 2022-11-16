@@ -6,5 +6,5 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/main-%j.out
 source ~/miniconda3/bin/activate
-conda activate main
+conda activate main_v2
 python main.py
