@@ -12,10 +12,11 @@ logger.setLevel(logging.ERROR)
 
 def create_artifact_folder(path, all_flag=True):
     artifact_path = Path(path) / "artifacts"
+    logger.info(f"\Trying to creat artifacts folder {artifact_path}\n")
     if not os.path.exists(str(artifact_path)) and all_flag:
         shutil.rmtree(str(artifact_path))
         os.makedirs(artifact_path)
-        logger.info(f"\n====> Successfully created artifacts folder\n")
+        logger.info(f"\nSuccessfully created artifacts folder\n")
     return
 
 @hydra.main(config_name="config", config_path = ".", version_base = None)
