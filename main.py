@@ -13,8 +13,9 @@ logger.setLevel(logging.ERROR)
 def create_artifact_folder(path, all_flag=True):
     artifact_path = Path(path) / "artifacts"
     logger.info(f"\Trying to creat artifacts folder {artifact_path}\n")
-    if not os.path.exists(str(artifact_path)) and all_flag:
-        shutil.rmtree(str(artifact_path))
+    if all_flag:
+        if os.path.exists(str(artifact_path)):
+            shutil.rmtree(str(artifact_path))
         os.makedirs(artifact_path)
         logger.info(f"\nSuccessfully created artifacts folder\n")
     return
