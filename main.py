@@ -15,6 +15,7 @@ def create_artifact_folder(path, all_flag=True):
     if os.path.exists(str(artifact_path)) and all_flag:
         shutil.rmtree(str(artifact_path))
         os.makedirs(artifact_path)
+        logger.info(f"\n====> Successfully created artifacts folder\n")
     return
 
 @hydra.main(config_name="config", config_path = ".", version_base = None)
