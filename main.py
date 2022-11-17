@@ -29,7 +29,7 @@ def go(config):
 
     steps = config["main"]["steps"]
     to_run = steps.split(",") if steps != "all" else config["components"].keys()
-
+    logger.info(f"\nGoing to run {steps}\n")
     create_artifact_folder('components', steps=='all')
     for component, params in config["components"].items():
         if component in to_run:
