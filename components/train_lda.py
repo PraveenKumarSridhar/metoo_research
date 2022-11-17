@@ -59,7 +59,7 @@ def go(input):
     else:
         grid = [10, 0.01, 0.21000000000000002]
         keys = gridsearch_params.keys()
-        grid_combos = [{k: v for k, v in zip(keys, combo)} for combo in grid]
+        grid_combos = [{k: v for k, v in zip(keys, grid)}]
 
     res = []
 
