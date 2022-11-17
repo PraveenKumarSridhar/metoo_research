@@ -6,5 +6,5 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/train_lda-%j.out
 source ~/miniconda3/bin/activate
-conda activate main
+conda activate main_v2
 python main.py main.steps=\'train_lda,append_topics,infer_demographics,infer_sentiment,postprocess_data\'
