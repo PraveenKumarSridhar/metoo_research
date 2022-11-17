@@ -20,6 +20,7 @@ def go(input):
     data = (
         pd.read_csv(input['input_path'], sep = "\t")
         .drop_duplicates()
+        .fillna('')
     )
 
     data['sentiment'] = data['Full Text'].apply(lambda x: sentiment_pipeline(x)[0]['label'])

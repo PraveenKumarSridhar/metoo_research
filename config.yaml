@@ -35,7 +35,7 @@ components:
     output: append_topics.csv
   
   infer_sentiment:
-    input_path: components/artifacts/append_topics.csv 
+    input_path: components/artifacts/append_topics.csv
     output: infer_sentiment.csv
 
   infer_demographics:
