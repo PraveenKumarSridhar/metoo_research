@@ -43,7 +43,7 @@ components:
     output: inferred_demographics.csv
 
   postprocess_data:
-    input_path: components/artifacts/infer_sentiment.csv
+    input_path: components/artifacts/append_topics.csv
     brand_path: ./data/brandfulllist.xlsx
     comp_path: ./data/companyfulllist.xlsx
     demo_path: components/artifacts/inferred_demographics.csv
