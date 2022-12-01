@@ -1,4 +1,4 @@
-name: main_v2
+name: main_v3
 channels:
   - conda-forge
   - defaults
@@ -22,3 +22,4 @@ dependencies:
     - lxml
     - transformers
     - torch
+    - spacytextblob
