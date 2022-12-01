@@ -33,10 +33,6 @@ components:
     dict_path: components/artifacts/dictionary
     data_path: components/artifacts/preprocess_data.csv
     output: append_topics.csv
-  
-  infer_sentiment:
-    input_path: components/artifacts/append_topics.csv
-    output: infer_sentiment.csv
 
   infer_demographics:
     input_path: components/artifacts/preprocess_data.csv
@@ -49,3 +45,7 @@ components:
     demo_path: components/artifacts/inferred_demographics.csv
     output: postprocess_data.csv
     influencer_thresh: 20000
+
+  infer_sentiment:
+    input_path: components/artifacts/postprocess_data.csv
+    output: postprocess_data_wt_sent.csv
