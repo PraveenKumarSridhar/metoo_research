@@ -44,7 +44,9 @@ components:
     comp_path: ./data/companyfulllist.xlsx
     demo_path: components/artifacts/inferred_demographics.csv
     output: postprocess_data.csv
-    influencer_thresh: 20000
+    small_influencer_thresh: [20000, 500000]
+    large_influencer_thresh: [500000, 1000000]
+    celebrity_thresh: [1000000]
 
   infer_sentiment:
     input_path: components/artifacts/postprocess_data.csv

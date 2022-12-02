@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 import logging
 import pandas as pd
+import numpy as np
 from pathlib import Path
 
 
@@ -46,11 +47,16 @@ def go(input):
     )
     companies_map = {k: "business" for k in companies.values}
 
-    demo["Account Type"] = (
-        demo["followers_count"].apply(lambda x: "influencer" if x > input['influencer_thresh'] else "core")
-        .mask(~demo["Account Type"].isin(["individual"])) # if induvidual do this else keep the already acc type
-        .combine_first(demo["Account Type"])
-    )
+    threshold_keys = ['small_influencer_thresh', 'large_influencer_thresh', 'celebrity_thresh']
+    
+    for thresh_key in threshold_keys:
+        min, max = input[thresh_key] if len(input[thresh_key])>1 else input[thresh_key] + [float('inf')]
+        demo["Account Type"] = (
+            demo["followers_count"].apply(lambda x: "influencer" if x > min and x <= max else "core")
+            .mask(~demo["Account Type"].isin(["individual"])) # if induvidual do this else keep the already acc type
+            .combine_first(demo["Account Type"])
+        )
+        
     demo["Account Type"] = demo["screen"].str.lower().map(celeb_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(brands_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
@@ -63,3 +69,14 @@ def go(input):
     data = data.merge(right = demo, how = "left", left_on = "Thread Author", right_on = "screen", suffixes = ("", "_originator"))
     
     data.to_csv(artifact_path / input['output'], sep = "\t")
+
+
+input = {
+    'input_path': './data/append_topics.csv',
+    'brand_path': './data/brandfulllist.xlsx',
+    'comp_path': './data/companyfulllist.xlsx',
+    'demo_path': './data/inferred_demographics.csv',
+    'output': 'postprocess_data.csv',
+    'influencer_thresh': 20000
+}
+go(input)
