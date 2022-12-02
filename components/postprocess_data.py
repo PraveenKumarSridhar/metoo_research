@@ -56,7 +56,7 @@ def go(input):
             .mask(~demo["Account Type"].isin(["individual"])) # if induvidual do this else keep the already acc type
             .combine_first(demo["Account Type"])
         )
-        
+
     demo["Account Type"] = demo["screen"].str.lower().map(celeb_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(brands_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
@@ -69,14 +69,3 @@ def go(input):
     data = data.merge(right = demo, how = "left", left_on = "Thread Author", right_on = "screen", suffixes = ("", "_originator"))
     
     data.to_csv(artifact_path / input['output'], sep = "\t")
-
-
-input = {
-    'input_path': './data/append_topics.csv',
-    'brand_path': './data/brandfulllist.xlsx',
-    'comp_path': './data/companyfulllist.xlsx',
-    'demo_path': './data/inferred_demographics.csv',
-    'output': 'postprocess_data.csv',
-    'influencer_thresh': 20000
-}
-go(input)
