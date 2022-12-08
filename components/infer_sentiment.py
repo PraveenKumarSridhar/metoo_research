@@ -21,7 +21,9 @@ logger = logging.getLogger()
 
 def go(input):
     artifact_path = Path('components/artifacts/')
-    sentiment_pipeline = pipeline("sentiment-analysis")
+    device = "cuda:0" if torch.cuda.is_available() else "cpu"
+    print(f'Sentiment pipeline will run on {device}')
+    sentiment_pipeline = pipeline("sentiment-analysis", device = 0)
     
     logger.info("Reading data from input file...")
 
