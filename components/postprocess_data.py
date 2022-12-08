@@ -51,8 +51,9 @@ def go(input):
     
     for thresh_key in threshold_keys:
         min, max = input[thresh_key] if len(input[thresh_key])>1 else input[thresh_key] + [float('inf')]
+        acc_type = ' '.join(thresh_key.replace('_thresh','').split(' ')).strip()
         demo["Account Type"] = (
-            demo["followers_count"].apply(lambda x: "influencer" if x > min and x <= max else "core")
+            demo["followers_count"].apply(lambda x: acc_type if x > min and x <= max else "core")
             .mask(~demo["Account Type"].isin(["individual"])) # if induvidual do this else keep the already acc type
             .combine_first(demo["Account Type"])
         )
