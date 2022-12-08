@@ -1,10 +1,11 @@
 #!/bin/bash
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=10
-#SBATCH --time=24:00:00
-#SBATCH --partition=short
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:1
+#SBATCH --time=08:00:00
+#SBATCH --job-name=sen_gpu_run
 #SBATCH --mem=50G
 #SBATCH --output=runs/train_lda-%j.out
 source ~/miniconda3/bin/activate
 conda activate main_v3
-python main.py main.steps=\'infer_sentiment,postprocess_data\'
+python main.py main.steps=\'infer_sentiment\'

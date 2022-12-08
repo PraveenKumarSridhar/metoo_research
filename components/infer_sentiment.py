@@ -21,7 +21,7 @@ def use_spacy_get_sentiment(text):
 
 def go(input):
     artifact_path = Path('components/artifacts/')
-    # sentiment_pipeline = pipeline("sentiment-analysis")
+    sentiment_pipeline = pipeline("sentiment-analysis")
     
     logger.info("Reading data from input file...")
 
@@ -31,8 +31,8 @@ def go(input):
         .fillna('')
     )
 
-    # data['sentiment'] = data['Full Text'].apply(lambda x: sentiment_pipeline(x)[0]['label'])
-    data['sentiment'] = data['Full Text'].apply(lambda x: use_spacy_get_sentiment(x))
+    data['sentiment'] = data['Full Text'].apply(lambda x: sentiment_pipeline(x)[0]['label'])
+    # data['sentiment'] = data['Full Text'].apply(lambda x: use_spacy_get_sentiment(x))
 
 
     data.to_csv(artifact_path / input['output'], sep = "\t")
