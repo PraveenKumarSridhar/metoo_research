@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 import logging
 import pandas as pd
-import numpy as np
+# import numpy as np
 from pathlib import Path
 
 
@@ -51,13 +51,14 @@ def go(input):
     
     for thresh_key in threshold_keys:
         min, max = input[thresh_key] if len(input[thresh_key])>1 else input[thresh_key] + [float('inf')]
-        acc_type = ' '.join(thresh_key.replace('_thresh','').split(' ')).strip()
+        acc_type = ' '.join(thresh_key.replace('_thresh','').split('_')).strip()
         demo["Account Type"] = (
-            demo["followers_count"].apply(lambda x: acc_type if x > min and x <= max else "core")
+            demo["followers_count"].apply(lambda x: acc_type if x > min and x <= max else 'individual')
             .mask(~demo["Account Type"].isin(["individual"])) # if induvidual do this else keep the already acc type
             .combine_first(demo["Account Type"])
         )
-
+    
+    demo["Account Type"] = demo["Account Type"].apply(lambda x: x if x != 'individual' else 'core')
     demo["Account Type"] = demo["screen"].str.lower().map(celeb_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(brands_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
