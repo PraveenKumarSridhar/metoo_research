@@ -22,7 +22,7 @@ def hit_users_api(user_names_list):
     for result in results.data:
         out[result['username']] = result['id']
     for error in results.errors:
-        out[error['username']] = 'NOT FOUND'
+        out[error['value']] = 'NOT FOUND'
     return out
 
 def read_clean_data(input_file):
@@ -77,10 +77,10 @@ def save_more_twt_users(data, author_data, output_folder):
     # create output folder if it does not exist create it
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-    author_list = author_data[author_data['tweet_count'] >= 200]['user_name'].to_list()
-    for author in author_list:
-        sample_tweets = data[data['user_name'] == author].head(200).to_dict('records')
-        write_gz(output_folder,'{}_statuses.json.gz'.format(author), sample_tweets)
+        author_list = author_data[author_data['tweet_count'] >= 200]['user_name'].to_list()
+        for author in author_list:
+            sample_tweets = data[data['user_name'] == author].head(200).to_dict('records')
+            write_gz(output_folder,'{}_statuses.json.gz'.format(author), sample_tweets)
     
 def get_to_hit_users(output_folder, user_data):
     saved_files = [fn for fn in os.listdir(output_folder) if fn.endswith('.json.gz')]
