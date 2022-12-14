@@ -67,6 +67,7 @@ def identify_less_twt_users(input_file, output_folder, output_file):
     
     logger.info("Hitting the get_user_id API in batches...")
     author_data = get_user_ids(author_data)
+    logger.info(f'User data without ids: {author_data[author_data["user_id"] != "NOT FOUND"].shape[0]} out of total {author_data.shape[0]}')
 
     logger.info("Saving output data to file...")
     author_data.to_csv(out_pth, index = False)
