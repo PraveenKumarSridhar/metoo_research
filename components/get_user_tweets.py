@@ -1,7 +1,5 @@
-from argparse import ArgumentParser
 import logging
 import pandas as pd
-from gensim.utils import simple_preprocess
 import tweepy, os, json, gzip
 from pathlib import Path
 
@@ -15,6 +13,12 @@ def write_gz(file_pth, file_name, data):
     out_pth = os.path.join(file_pth, file_name)
     with gzip.open(out_pth, 'w') as fout:
         fout.write(json.dumps(data).encode('utf-8'))
+
+def write_csv(file_pth, data):
+    if not os.path.exists(file_pth):
+        data.to_csv(file_pth, index=False)
+    else:
+        data.to_csv(file_pth, mode='a', index=False, header=False)
 
 def hit_users_api(user_names_list):
     out = {}
@@ -34,30 +38,37 @@ def read_clean_data(input_file):
         )
     return data
 
-def get_user_ids(author_data):
+def get_user_ids(author_data, users_wt_ids, out_pth):
     # user names list can be a max of 100
-    user_names_list = author_data['user_name'].to_list()
+    user_names_list = [user for user in author_data['user_name'].to_list() if user not in users_wt_ids]
     n = 100
     batched_user_names = [user_names_list[i * n:(i + 1) * n] for i in range((len(user_names_list) + n - 1) // n )]
     user_id_map = {}
     for batch in batched_user_names:
         batch_user_id_map = hit_users_api(batch)
+        tmp_df = author_data[author_data['user_name'].isin(batch)]
+        tmp_df['user_id'] = tmp_df['user_name'].map(batch_user_id_map)
+        write_csv(out_pth, tmp_df)
         user_id_map = {**user_id_map, **batch_user_id_map}
     author_data['user_id'] = author_data['user_name'].map(user_id_map)
     return author_data
 
 def identify_less_twt_users(input_file, output_folder, output_file):
     out_pth = os.path.join(output_folder, output_file)
-    if os.path.isfile(out_pth):
-        author_data = pd.read_csv(out_pth)
-        data = read_clean_data(input_file)
-        return author_data, data
 
     logger.info("Reading data from input file...")
     data = read_clean_data(input_file)
-    
+
     logger.info("Applying transformations on the input file...")
     author_data = data['user_name'].value_counts().rename_axis('user_name').reset_index(name='tweet_count')
+
+    users_wt_ids = []
+    if os.path.isfile(out_pth):
+        written_author_data = pd.read_csv(out_pth)
+        if written_author_data.shape[0] == author_data[author_data['tweet_count'] < 200].shape[0]:
+            return written_author_data, data
+        else:
+            users_wt_ids = written_author_data['user_name'].to_list()
 
     logger.info("Saving tweets for users with more than 200 tweets in dataset")
     save_more_twt_users(data, author_data, output_folder)
@@ -66,11 +77,12 @@ def identify_less_twt_users(input_file, output_folder, output_file):
     author_data['needed_tweets'] = 200 - author_data['tweet_count']
     
     logger.info("Hitting the get_user_id API in batches...")
-    author_data = get_user_ids(author_data)
+    author_data = get_user_ids(author_data, users_wt_ids, out_pth)
     logger.info(f'User data without ids: {author_data[author_data["user_id"] != "NOT FOUND"].shape[0]} out of total {author_data.shape[0]}')
 
     logger.info("Saving output data to file...")
-    author_data.to_csv(out_pth, index = False)
+    full_out_pth = os.path.join(output_folder, output_file.replace('.csv','_full.csv'))
+    author_data.to_csv(full_out_pth, index = False)
     return author_data, data
 
 def save_more_twt_users(data, author_data, output_folder):
