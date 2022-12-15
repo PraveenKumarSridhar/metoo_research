@@ -142,7 +142,7 @@ def go(input):
     # hit & save twitter API to get more tweets for each user
     [get_save_more_tweets(input['user_data_folder'], data, user_name, id, twt_count, needed_twt) \
         for user_name, id, twt_count, needed_twt in \
-        zip(to_hit_users['user_name'], to_hit_users['id'], to_hit_users['tweet_count'], to_hit_users['needed_tweets'])]
+        zip(to_hit_users['user_name'], to_hit_users['user_id'], to_hit_users['tweet_count'], to_hit_users['needed_tweets'])]
     
     # Check if we fetched all users data 
     to_hit_users = get_to_hit_users(input['user_data_folder'], user_data)
