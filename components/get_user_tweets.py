@@ -21,13 +21,17 @@ def write_csv(file_pth, data):
         data.to_csv(file_pth, mode='a', index=False, header=False)
 
 def hit_users_api(user_names_list):
-    out = {}
-    results = client.get_users(usernames=user_names_list)
-    for result in results.data:
-        out[result['username']] = result['id']
-    for error in results.errors:
-        out[error['value']] = 'NOT FOUND'
-    return out
+    try:
+        out = {}
+        results = client.get_users(usernames=user_names_list)
+        for result in results.data:
+            out[result['username']] = result['id']
+        for error in results.errors:
+            out[error['value']] = 'NOT FOUND'
+        return out
+    except Exception as e:
+        logger.error(e)
+        return {}
 
 def read_clean_data(input_file):
     data = pd.read_csv(input_file, sep = "\t", index_col = 0)[['Author', 'Full Text']]
@@ -39,23 +43,27 @@ def read_clean_data(input_file):
     return data
 
 def get_user_ids(author_data, users_wt_ids, out_pth):
-    # user names list can be a max of 100
-    logger.info(f'In get_users_id, prev processed users count {len(users_wt_ids)}')
-    user_names_list = list(set(author_data['user_name'].to_list()) - set(users_wt_ids))
-    logger.info(f'In get_users_id, need to process {len(user_names_list)}')
-    n = 100
-    batched_user_names = [user_names_list[i * n:(i + 1) * n] for i in range((len(user_names_list) + n - 1) // n )]
-    user_id_map = {}
-    for index, batch in enumerate(batched_user_names):
-        if index % 10 == 0:
-            logger.info(f'In get_users_id, processed {index} of {len(batched_user_names)} users')
-        batch_user_id_map = hit_users_api(batch)
-        tmp_df = author_data[author_data['user_name'].isin(batch)]
-        tmp_df['user_id'] = tmp_df['user_name'].map(batch_user_id_map)
-        write_csv(out_pth, tmp_df)
-        user_id_map = {**user_id_map, **batch_user_id_map}
-    author_data['user_id'] = author_data['user_name'].map(user_id_map)
-    return author_data
+    try:
+        # user names list can be a max of 100
+        logger.info(f'In get_users_id, prev processed users count {len(users_wt_ids)}')
+        user_names_list = list(set(author_data['user_name'].to_list()) - set(users_wt_ids))
+        logger.info(f'In get_users_id, need to process {len(user_names_list)}')
+        n = 100
+        batched_user_names = [user_names_list[i * n:(i + 1) * n] for i in range((len(user_names_list) + n - 1) // n )]
+        user_id_map = {}
+        for index, batch in enumerate(batched_user_names):
+            if index % 10 == 0:
+                logger.info(f'In get_users_id, processed {index} of {len(batched_user_names)} users')
+            batch_user_id_map = hit_users_api(batch)
+            tmp_df = author_data[author_data['user_name'].isin(batch)]
+            tmp_df['user_id'] = tmp_df['user_name'].map(batch_user_id_map)
+            write_csv(out_pth, tmp_df)
+            user_id_map = {**user_id_map, **batch_user_id_map}
+        author_data['user_id'] = author_data['user_name'].map(user_id_map)
+        return author_data
+    except Exception as e:
+        logger.error('Error in get_users_id: ' + str(e))
+        raise e
 
 def identify_less_twt_users(input_file, output_folder, output_file):
     out_pth = os.path.join(output_folder, output_file)
