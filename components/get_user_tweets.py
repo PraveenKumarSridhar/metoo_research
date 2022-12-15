@@ -40,11 +40,15 @@ def read_clean_data(input_file):
 
 def get_user_ids(author_data, users_wt_ids, out_pth):
     # user names list can be a max of 100
+    logger.info(f'In get_users_id, prev processed users count {len(users_wt_ids)}')
     user_names_list = [user for user in author_data['user_name'].to_list() if user not in users_wt_ids]
+    logger.info(f'In get_users_id, need to process {len(user_names_list)}')
     n = 100
     batched_user_names = [user_names_list[i * n:(i + 1) * n] for i in range((len(user_names_list) + n - 1) // n )]
     user_id_map = {}
-    for batch in batched_user_names:
+    for index, batch in enumerate(batched_user_names):
+        if index % 10 == 0:
+            logger.info(f'In get_users_id, processed {index} of {len(batched_user_names)} users')
         batch_user_id_map = hit_users_api(batch)
         tmp_df = author_data[author_data['user_name'].isin(batch)]
         tmp_df['user_id'] = tmp_df['user_name'].map(batch_user_id_map)
