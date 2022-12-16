@@ -134,11 +134,12 @@ def clean_additional_tweets(recent_tweets):
 
 def get_save_more_tweets(output_folder, data ,user_name, user_id, contained_tweets, needed_tweets):
     sample_tweets = data[data['user_name'] == user_name].head(contained_tweets).to_dict('records')
+    logger.info(f'user id {user_id}, for user {user_name}')
     if user_id != 'NOT FOUND':
         try:
             additional_tweets = client.get_users_tweets(id = user_id, max_results = str(needed_tweets)).data
         except:
-            logger.error(f'invlid user id {user_id}, for user {user_name}')
+            logger.error(f'invalid user id {user_id}, for user {user_name}')
         if additional_tweets:
             additional_tweets = clean_additional_tweets(additional_tweets)
         else:
@@ -162,8 +163,8 @@ def go(input):
     
     logger.info("Hitting the get_tweets API for each user...")
     # hit & save twitter API to get more tweets for each user
-    [get_save_more_tweets(input['user_data_folder'], data, user_name, id, twt_count, needed_twt) \
-        for user_name, id, twt_count, needed_twt in \
+    [get_save_more_tweets(input['user_data_folder'], data, user_name, user_id, twt_count, needed_twt) \
+        for user_name, user_id, twt_count, needed_twt in \
         zip(to_hit_users['user_name'], to_hit_users['user_id'], to_hit_users['tweet_count'], to_hit_users['needed_tweets'])]
     
     # Check if we fetched all users data 
