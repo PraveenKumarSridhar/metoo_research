@@ -1,6 +1,6 @@
 import logging
 import pandas as pd
-import tweepy, os, json, gzip
+import tweepy, os, json, gzip, re
 from pathlib import Path
 
 logger = logging.getLogger()
@@ -42,14 +42,24 @@ def read_clean_data(input_file):
         )
     return data
 
+def valid_username(username):
+    try:
+        re.compile('[')
+        return  True
+    except re.error:
+        return False
+
 def get_user_ids(author_data, users_wt_ids, out_pth):
     try:
         # user names list can be a max of 100
         logger.info(f'In get_users_id, prev processed users count {len(users_wt_ids)}')
         user_names_list = list(set(author_data['user_name'].to_list()) - set(users_wt_ids))
-        logger.info(f'In get_users_id, need to process {len(user_names_list)}')
+        valid_user_names_list = [user_name for user_name in user_names_list if valid_username(user_name)]
+        logger.info(f'Invalid user names list: {len(set(user_names_list) - set(valid_user_names_list))}')
+
+        logger.info(f'In get_users_id, need to process {len(valid_user_names_list)}')
         n = 100
-        batched_user_names = [user_names_list[i * n:(i + 1) * n] for i in range((len(user_names_list) + n - 1) // n )]
+        batched_user_names = [valid_user_names_list[i * n:(i + 1) * n] for i in range((len(valid_user_names_list) + n - 1) // n )]
         user_id_map = {}
         for index, batch in enumerate(batched_user_names):
             if index % 10 == 0:
@@ -80,7 +90,7 @@ def identify_less_twt_users(input_file, output_folder, output_file):
         if written_author_data.shape[0] == author_data[author_data['tweet_count'] < 200].shape[0]:
             return written_author_data, data
         else:
-            users_wt_ids = written_author_data['user_name'].to_list()
+            users_wt_ids = written_author_data[written_author_data['user_id'].notna()]['user_name'].to_list()
 
     logger.info("Saving tweets for users with more than 200 tweets in dataset")
     save_more_twt_users(data, author_data, output_folder)
