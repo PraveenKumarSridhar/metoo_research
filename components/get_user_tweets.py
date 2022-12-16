@@ -44,8 +44,8 @@ def read_clean_data(input_file):
 
 def valid_username(username):
     try:
-        re.compile('^[A-Za-z0-9_]{1,15}$')
-        return  True
+        pattern = re.compile('^[A-Za-z0-9_]{0,14}$') 
+        return True if pattern.match(username) else False
     except re.error:
         return False
 
