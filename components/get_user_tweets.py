@@ -112,7 +112,7 @@ def get_to_hit_users(output_folder, user_data):
     user_names = [fn.split('_')[0] for fn in saved_files]
     to_hit_users_data = user_data[~user_data['user_name'].isin(user_names)]
     to_hit_users_data['needed_tweets'] = to_hit_users_data['needed_tweets']\
-        .apply(lambda x: [x,x-100] if x > 100 else [x])
+        .apply(lambda x: [100,x-100] if x > 100 else [x])
     to_hit_users_data = to_hit_users_data.explode('needed_tweets')
     return to_hit_users_data 
 
