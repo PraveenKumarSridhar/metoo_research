@@ -1,13 +1,16 @@
 from argparse import ArgumentParser
-import logging
+import logging, os
 import pandas as pd
+import numpy as np
 from gensim.utils import simple_preprocess
-import spacy
+# import spacy
 from pathlib import Path
-from transformers import pipeline
+# from transformers import pipeline
 import torch
-import spacy
-from spacytextblob.spacytextblob import SpacyTextBlob
+# import spacy
+# from spacytextblob.spacytextblob import SpacyTextBlob
+from transformers import pipeline
+classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", return_all_scores=True, device=0)
 
 
 logger = logging.getLogger()
@@ -18,23 +21,58 @@ logger = logging.getLogger()
 #     spacy_txt = nlp(text)
 #     sentiment = spacy_txt._.blob.polarity
 #     return 'pos' if sentiment > 0 else 'neg'  
+def write_csv(file_pth, data):
+    if not os.path.exists(file_pth):
+        data.to_csv(file_pth, sep = "\t", index=False)
+    else:
+        data.to_csv(file_pth, sep = "\t", mode='a', index=False, header=False)
+
+def choose_file(input_dir):
+    # sort and choose the first file without the in_pipe extension
+    fnames = sorted(os.listdir(input_dir))
+    selected_fname = [fname for fname in fnames if not fname.endswith('_in_pipe.csv')][0]        
+    return selected_fname
+
+def read_and_rename(file_path):
+    data = (pd.read_csv(file_path, sep = "\t")
+        .drop_duplicates()
+        .fillna('')
+        )
+
+    new_fname = file_path.replace('.csv','_in_pipe.csv')
+    os.rename(file_path, new_fname)
+    return data
+
+def get_emotions(tweets_list):
+    # tweets are of max length 100K
+    result_list = classifier(tweets_list)
+    return [max(result, key=lambda x:x['score'])['label'] for result in result_list]
 
 def go(input):
     artifact_path = Path('components/artifacts/')
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     logger.info(f'Sentiment pipeline will run on {device}')
-    sentiment_pipeline = pipeline("sentiment-analysis", device = 0)
-    
+    # sentiment_pipeline = pipeline("sentiment-analysis", device = 0)
     logger.info("Reading data from input file...")
 
-    data = (
-        pd.read_csv(input['input_path'], sep = "\t")
-        .drop_duplicates()
-        .fillna('')
-    )
+    input_file_path = choose_file(input['input_dir'])
+    input_fname = input_file_path.split('/')[-1]
+    data = read_and_rename(input_file_path)
 
-    data['sentiment'] = data['Full Text'].apply(lambda x: sentiment_pipeline(x)[0]['label'])
+    out_path = os.path.join(input['output_dir'], input_fname)
+    
+    batches = data.groupby(np.arange(len(data.index))//1000000)
+
+    for (frame_no, frame) in batches:
+        logger.info(f'Processing frame {frame_no}...')
+        tweets_list = frame['Full Text'].to_list()
+        # get_emotions for each batch of 100k
+        emotions = get_emotions(tweets_list)
+        frame['emotions'] = emotions
+        write_csv(out_path, frame)
+    
+    # data['sentiment'] = data['Full Text'].apply(lambda x: sentiment_pipeline(x)[0]['label'])
     # data['sentiment'] = data['Full Text'].apply(lambda x: use_spacy_get_sentiment(x))
 
 
-    data.to_csv(artifact_path / input['output'], sep = "\t")
+    # data.to_csv(artifact_path / input['output'], sep = "\t")
