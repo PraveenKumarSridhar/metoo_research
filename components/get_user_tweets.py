@@ -114,6 +114,7 @@ def get_to_hit_users(output_folder, user_data):
     to_hit_users_data['needed_tweets'] = to_hit_users_data['needed_tweets']\
         .apply(lambda x: [100,x-100] if x > 100 else [x])
     to_hit_users_data = to_hit_users_data.explode('needed_tweets')
+    to_hit_users_data['needed_tweets'] = to_hit_users_data['needed_tweets'].apply(lambda x: max(x,5))
     return to_hit_users_data 
 
 def clean_additional_tweets(recent_tweets):
