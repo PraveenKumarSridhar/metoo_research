@@ -67,7 +67,9 @@ def get_user_ids(author_data, users_wt_ids, out_pth):
             batch_user_id_map = hit_users_api(batch)
             tmp_df = author_data[author_data['user_name'].isin(batch)]
             tmp_df['user_id'] = tmp_df['user_name'].map(batch_user_id_map)
+            logger.info(tmp_df.head(100))
             write_csv(out_pth, tmp_df)
+            break
             user_id_map = {**user_id_map, **batch_user_id_map}
         author_data['user_id'] = author_data['user_name'].map(user_id_map)
         return author_data
