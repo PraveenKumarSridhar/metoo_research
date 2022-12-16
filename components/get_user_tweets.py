@@ -95,6 +95,7 @@ def identify_less_twt_users(input_file, output_folder, output_file):
     logger.info("Saving output data to file...")
     full_out_pth = os.path.join(output_folder, output_file.replace('.csv','_full.csv'))
     author_data.to_csv(full_out_pth, index = False)
+    # fix this to read and then send
     return author_data, data
 
 def save_more_twt_users(data, author_data, output_folder):
@@ -125,7 +126,11 @@ def get_save_more_tweets(output_folder, data ,user_name, user_id, contained_twee
     sample_tweets = data[data['user_name'] == user_name].head(contained_tweets).to_dict('records')
     if user_id != 'NOT FOUND':
         additional_tweets = client.get_users_tweets(id = user_id, max_results = str(needed_tweets)).data
-        additional_tweets = clean_additional_tweets(additional_tweets)
+        if additional_tweets:
+            additional_tweets = clean_additional_tweets(additional_tweets)
+        else:
+            logger.info(f'No additional tweets found for user {user_name}')
+            additional_tweets = []
         sample_tweets = sample_tweets + additional_tweets
     write_gz(output_folder, '{}_statuses.json.gz'.format(user_name), sample_tweets)   
 
