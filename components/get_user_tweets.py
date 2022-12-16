@@ -135,7 +135,10 @@ def clean_additional_tweets(recent_tweets):
 def get_save_more_tweets(output_folder, data ,user_name, user_id, contained_tweets, needed_tweets):
     sample_tweets = data[data['user_name'] == user_name].head(contained_tweets).to_dict('records')
     if user_id != 'NOT FOUND':
-        additional_tweets = client.get_users_tweets(id = user_id, max_results = str(needed_tweets)).data
+        try:
+            additional_tweets = client.get_users_tweets(id = user_id, max_results = str(needed_tweets)).data
+        except:
+            logger.error(f'invlid user id {user_id}, for user {user_name}')
         if additional_tweets:
             additional_tweets = clean_additional_tweets(additional_tweets)
         else:
