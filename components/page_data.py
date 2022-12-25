@@ -16,7 +16,7 @@ def go(input):
         os.makedirs(processed_output_dir)
 
     if len(os.listdir(processed_output_dir)) == 0:
-        logger.info(f'Initiating pagination for {input["in_file_name"]}')
+        logger.info(f'Initiating pagination for {input["input_path"]}')
         logger.info("Reading data from input file...")
 
         fname = input['input_path'].split('/')[-1]
