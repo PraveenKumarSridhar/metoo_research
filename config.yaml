@@ -52,7 +52,11 @@ components:
     small_influencer_thresh: [20000, 500000]
     large_influencer_thresh: [500000, 1000000]
     celebrity_thresh: [1000000]
-
-  infer_sentiment:
+  
+  page_data:
     input_path: components/artifacts/postprocess_data.csv
-    output: postprocess_data_wt_sent.csv
+    out_folder_name: components/artifacts/page/
+  
+  infer_sentiment:
+    input_path: components/artifacts/page/
+    output_path: components/artifacts/page/processed/
