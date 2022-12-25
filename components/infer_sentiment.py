@@ -49,7 +49,7 @@ def get_emotions(tweets_list):
     return [max(result, key=lambda x:x['score'])['label'] for result in result_list]
 
 def go(input):
-    artifact_path = Path('components/artifacts/')
+    # artifact_path = Path('components/artifacts/')
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     logger.info(f'Sentiment pipeline will run on {device}')
     # sentiment_pipeline = pipeline("sentiment-analysis", device = 0)

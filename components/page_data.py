@@ -10,9 +10,9 @@ logger = logging.getLogger()
 def go(input):
     artifact_path = Path('components/artifacts/')
     output_dir = os.path.join(artifact_path, input['out_folder_name'])
+    processed_output_dir = os.path.join(output_dir, 'processed')
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-        processed_output_dir = os.path.join(output_dir, 'processed')
         os.makedirs(processed_output_dir)
 
     if len(os.listdir(processed_output_dir)) == 0:
