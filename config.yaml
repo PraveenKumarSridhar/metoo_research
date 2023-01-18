@@ -58,5 +58,5 @@ components:
     out_folder_name: page/
   
   infer_sentiment:
-    input_path: page/
-    output_path: page/processed/
+    input_path: components/artifacts/page/
+    output_path: components/artifacts/page/processed/
