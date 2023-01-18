@@ -56,6 +56,7 @@ def go(input):
     logger.info("Reading data from input file...")
 
     input_file_path = choose_file(input['input_dir'])
+    logger.info(f"Selected input file {input_file_path}")
     input_fname = input_file_path.split('/')[-1]
     data = read_and_rename(input_file_path)
 
