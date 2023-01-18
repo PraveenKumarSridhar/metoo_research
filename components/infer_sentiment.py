@@ -61,12 +61,12 @@ def go(input):
         # sentiment_pipeline = pipeline("sentiment-analysis", device = 0)
         logger.info("Reading data from input file...")
 
-        input_file_path = choose_file(input['input_dir'])
+        input_file_path = choose_file(input['input_path'])
         logger.info(f"Selected input file {input_file_path}")
         input_fname = input_file_path.split('/')[-1]
         data = read_and_rename(input_file_path)
 
-        out_path = os.path.join(input['output_dir'], input_fname)
+        out_path = os.path.join(input['output_path'], input_fname)
         
         batches = data.groupby(np.arange(len(data.index))//1000000)
 
