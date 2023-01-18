@@ -30,6 +30,7 @@ def write_csv(file_pth, data):
 def choose_file(input_dir):
     # sort and choose the first file without the in_pipe extension
     fnames = sorted(os.listdir(input_dir))
+    logger.info(f'files in directory {input_dir} are {fnames}')
     selected_fname = [fname for fname in fnames if not fname.endswith('_in_pipe.csv')][0]        
     return selected_fname
 
