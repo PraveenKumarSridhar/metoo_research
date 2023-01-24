@@ -24,10 +24,9 @@ def go(input):
     news = pd.read_csv(r'./data/news_outlets-accounts.csv')
     news_id_list = [news_.lower() for news_ in news['Token'].tolist()]
 
-    celeb_data = pd.read_csv(r'./data/celebrity.csv')
-    celeb_map = {u.lower(): "celebrity" for u in celeb_data["twitter"]}
-    # news["@name"] = news["@name"].str.replace("@", "").str.lower()
-    # news_users = {u.lower(): "news" for u in news["@name"]}
+    celeb_data = pd.read_csv(r'./data/celebrity.csv')['twitter'].tolist()
+    celeb_data_v2 = pd.read_csv(r'./data/celebrity_v2.csv')['twitter_username'].tolist()
+    celeb_map = {u.lower(): "celebrity" for u in celeb_data + celeb_data_v2}
 
     brands_df = pd.read_excel(input['brand_path'], sheet_name = "All 1558", usecols = ["Twitter Handle"])
     brands = (
