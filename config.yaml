@@ -49,8 +49,9 @@ components:
     comp_path: ./data/companyfulllist.xlsx
     demo_path: components/artifacts/inferred_demographics.csv
     output: postprocess_data.csv
-    small_influencer_thresh: [20000, 500000]
-    large_influencer_thresh: [500000, 1000000]
+    nano_influencer_thresh: [1000, 10000]
+    micro_influencer_thresh: [10000, 100000]
+    macro_influencer_thresh: [100000, 1000000]
     celebrity_thresh: [1000000]
   
   page_data:

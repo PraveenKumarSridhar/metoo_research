@@ -47,7 +47,8 @@ def go(input):
     )
     companies_map = {k: "business" for k in companies.values}
 
-    threshold_keys = ['small_influencer_thresh', 'large_influencer_thresh', 'celebrity_thresh']
+    threshold_keys = ['nano_influencer_thresh','micro_influencer_thresh',\
+         'macro_influencer_thresh', 'celebrity_thresh']
     
     for thresh_key in threshold_keys:
         min, max = input[thresh_key] if len(input[thresh_key])>1 else input[thresh_key] + [float('inf')]
