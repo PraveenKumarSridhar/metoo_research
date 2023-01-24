@@ -27,7 +27,9 @@ def go(input):
     )
     data["Date"] = pd.to_datetime(data["Date"])
     data = data[data["Date"] > "2017-10-15"] # remove tweets prior to Alyssa Milano #MeToo tweet
-
+    
+    data ['raw full text'] = data['Full Text']
+    
     data["Full Text"] = (
         data["Full Text"]
         .fillna("")
