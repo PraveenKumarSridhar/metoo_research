@@ -7,4 +7,4 @@
 #SBATCH --output=runs/main-%j.out
 source ~/miniconda3/bin/activate
 conda activate main_v2
-python main.py
+python main.py main.steps=\'consolidate_data,preprocess_data,train_lda,append_topics,infer_demographics,postprocess_data\'
