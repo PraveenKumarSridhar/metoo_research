@@ -57,6 +57,7 @@ components:
   page_data:
     input_path: components/artifacts/postprocess_data.csv
     out_folder_name: page/
+    output_path: components/artifacts/postprocess_data_wt_emotion.csv
   
   infer_sentiment:
     input_path: components/artifacts/page/
