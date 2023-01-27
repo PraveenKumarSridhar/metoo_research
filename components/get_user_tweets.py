@@ -27,7 +27,7 @@ def hit_users_api(user_names_list):
         for result in results.data:
             out[result['username'].lower()] = result['id']
         for error in results.errors:
-            out[error['value']] = 'NOT FOUND'
+            out[error['value'].lower()] = 'NOT FOUND'
         return out
     except Exception as e:
         logger.error(e)
@@ -65,9 +65,9 @@ def get_user_ids(author_data, users_wt_ids, out_pth):
             if index % 10 == 0:
                 logger.info(f'In get_users_id, processed {index} of {len(batched_user_names)} users')
             batch_user_id_map = hit_users_api(batch)
-            logger.info(f'batch_user_id_map {batch_user_id_map}')
+            # logger.info(f'batch_user_id_map {batch_user_id_map}')
             tmp_df = author_data[author_data['user_name'].isin(batch)]
-            logger.info(f'tmp_df {tmp_df}')
+            # logger.info(f'tmp_df {tmp_df}')
             tmp_df['user_id'] = tmp_df['user_name'].apply(lambda x: batch_user_id_map[x.lower()])
             write_csv(out_pth, tmp_df)
             user_id_map = {**user_id_map, **batch_user_id_map}
