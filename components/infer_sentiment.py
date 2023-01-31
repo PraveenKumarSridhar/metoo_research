@@ -10,7 +10,11 @@ import torch
 # import spacy
 # from spacytextblob.spacytextblob import SpacyTextBlob
 from transformers import pipeline
-classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", return_all_scores=True, device=0)
+
+task='emotion'
+# MODEL = 'j-hartmann/emotion-english-distilroberta-base'
+MODEL = f"cardiffnlp/twitter-roberta-base-{task}"
+classifier = pipeline("text-classification", model= MODEL, return_all_scores=True, device=0)
 
 
 logger = logging.getLogger()
