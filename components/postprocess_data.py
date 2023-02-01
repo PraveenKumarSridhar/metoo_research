@@ -48,6 +48,9 @@ def go(input):
 
     threshold_keys = ['nano_influencer_thresh','micro_influencer_thresh',\
          'macro_influencer_thresh', 'celebrity_thresh']
+    influencer_acc_types = [' '.join(acc_type.replace('_thresh','').split('_')).strip() \
+        for acc_type in threshold_keys]
+
     
     for thresh_key in threshold_keys:
         min, max = input[thresh_key] if len(input[thresh_key])>1 else input[thresh_key] + [float('inf')]
@@ -63,8 +66,8 @@ def go(input):
     demo["Account Type"] = demo["screen"].str.lower().map(brands_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo["screen"].str.lower().map(companies_map).combine_first(demo["Account Type"])
     demo["Account Type"] = demo[["screen","Account Type"]].apply(lambda x: news_iden_imp_heu(x[0], x[1], news_id_list),axis=1)
-    demo["Gender"] = demo["Gender"].mask(~demo["Account Type"].isin(["core", "influencer"]))
-    demo["Ethnicity"] = demo["Ethnicity"].mask(~demo["Account Type"].isin(["core", "influencer"]))
+    demo["Gender"] = demo["Gender"].mask(~demo["Account Type"].isin(["core"] + influencer_acc_types))
+    demo["Ethnicity"] = demo["Ethnicity"].mask(~demo["Account Type"].isin(["core"]+ influencer_acc_types))
 
 
     data = raw_data.merge(right = demo, how = "left", left_on = "Author", right_on = "screen")
