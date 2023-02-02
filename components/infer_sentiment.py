@@ -77,7 +77,7 @@ def go(input):
 
         for (frame_no, frame) in batches:
             logger.info(f'Processing frame {frame_no}...')
-            tweets_list = frame['Full Text'].to_list()
+            tweets_list = frame['raw full text'].to_list()
             # get_emotions for each batch of 100k
             emotions = get_emotions(tweets_list)
             frame['emotions'] = emotions
