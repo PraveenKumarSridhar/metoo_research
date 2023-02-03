@@ -24,8 +24,8 @@ def go(input):
             pd.read_csv(input['input_path'], sep = "\t")
             .drop_duplicates()
         )
-
-        groups = data.groupby(np.arange(len(data.index))//1000000)
+        page_size = 800000
+        groups = data.groupby(np.arange(len(data.index))//page_size)
         for (frame_no, frame) in groups:
             out_fname = fname.replace(".csv", "_{}.csv".format(frame_no))
             out_path  = os.path.join(output_dir, out_fname)
