@@ -5,9 +5,6 @@ from pathlib import Path
 
 logger = logging.getLogger()
 
-auth = os.environ['TWITTER_API_KEY']
-client = tweepy.Client(auth, wait_on_rate_limit=True)
-
 def write_gz(file_pth, file_name, data):
     # write user tweets in .json.gz format in output_folder
     out_pth = os.path.join(file_pth, file_name)
@@ -20,7 +17,7 @@ def write_csv(file_pth, data):
     else:
         data.to_csv(file_pth, mode='a', index=False, header=False)
 
-def hit_users_api(user_names_list):
+def hit_users_api(user_names_list, client):
     try:
         out = {}
         results = client.get_users(usernames=user_names_list)
@@ -49,7 +46,7 @@ def valid_username(username):
     except re.error:
         return False
 
-def get_user_ids(author_data, users_wt_ids, out_pth):
+def get_user_ids(author_data, users_wt_ids, out_pth, client):
     try:
         # user names list can be a max of 100
         logger.info(f'In get_users_id, prev processed users count {len(users_wt_ids)}')
@@ -64,7 +61,7 @@ def get_user_ids(author_data, users_wt_ids, out_pth):
         for index, batch in enumerate(batched_user_names):
             if index % 10 == 0:
                 logger.info(f'In get_users_id, processed {index} of {len(batched_user_names)} users')
-            batch_user_id_map = hit_users_api(batch)
+            batch_user_id_map = hit_users_api(batch, client)
             # logger.info(f'batch_user_id_map {batch_user_id_map}')
             tmp_df = author_data[author_data['user_name'].isin(batch)]
             # logger.info(f'tmp_df {tmp_df}')
@@ -90,7 +87,7 @@ def identify_less_twt_users(input_file, output_folder, output_file):
     if os.path.isfile(out_pth):
         written_author_data = pd.read_csv(out_pth)
         if written_author_data.shape[0] == author_data[author_data['tweet_count'] < 200].shape[0]:
-            save_more_twt_users(data, author_data, output_folder)
+            # save_more_twt_users(data, author_data, output_folder)
             return written_author_data, data
         else:
             users_wt_ids = written_author_data[written_author_data['user_id'].notna()]['user_name'].to_list()
@@ -138,7 +135,7 @@ def clean_additional_tweets(recent_tweets):
     out = [dict(tweet) for tweet in recent_tweets]
     return out
 
-def get_save_more_tweets(output_folder, data ,user_name, user_id, contained_tweets, needed_tweets):
+def get_save_more_tweets(output_folder, data ,user_name, user_id, contained_tweets, needed_tweets, client):
     sample_tweets = data[data['user_name'] == user_name].head(contained_tweets).to_dict('records')
     # logger.info(f'user id {user_id}, for user {user_name}')
     if user_id != 'NOT FOUND':
@@ -157,10 +154,12 @@ def get_save_more_tweets(output_folder, data ,user_name, user_id, contained_twee
 
 def go(input):
     artifact_path = Path('components/artifacts/')
+    auth = os.environ[input['TWITTER_API_KEY_NAME']]
+    client = tweepy.Client(auth, wait_on_rate_limit=True)
     # input has input_filename, output_folder, user_filename 
 
     # find users to get more tweets for and find users with 200 or more tweets save them in user_tweets folder 
-    user_data, data = identify_less_twt_users(input['input_path'], input['user_data_folder'], input['less_twt_users_file'])
+    user_data, data = identify_less_twt_users(input['input_path'], input['user_data_folder'], input['less_twt_users_file'], client)
     
     logger.info("Getting to hit user data...")
     # find users to get more users for after subtracting users for which this process is completed
@@ -169,7 +168,7 @@ def go(input):
     
     logger.info("Hitting the get_tweets API for each user...")
     # hit & save twitter API to get more tweets for each user
-    [get_save_more_tweets(input['user_data_folder'], data, user_name, user_id, twt_count, needed_twt) \
+    [get_save_more_tweets(input['user_data_folder'], data, user_name, user_id, twt_count, needed_twt, client) \
         for user_name, user_id, twt_count, needed_twt in \
         zip(to_hit_users['user_name'], to_hit_users['user_id'], to_hit_users['tweet_count'], to_hit_users['needed_tweets'])]
     
