@@ -74,7 +74,7 @@ def get_user_ids(author_data, users_wt_ids, out_pth, client):
         logger.error('Error in get_users_id: ' + str(e))
         raise e
 
-def identify_less_twt_users(input_file, output_folder, output_file):
+def identify_less_twt_users(input_file, output_folder, output_file, clients):
     out_pth = os.path.join(output_folder, output_file)
 
     logger.info("Reading data from input file...")
@@ -99,7 +99,7 @@ def identify_less_twt_users(input_file, output_folder, output_file):
     author_data['needed_tweets'] = 200 - author_data['tweet_count']
     
     logger.info("Hitting the get_user_id API in batches...")
-    author_data = get_user_ids(author_data, users_wt_ids, out_pth)
+    author_data = get_user_ids(author_data, users_wt_ids, out_pth, clients)
     logger.info(f'User data without ids: {author_data[author_data["user_id"] != "NOT FOUND"].shape[0]} out of total {author_data.shape[0]}')
 
     logger.info("Saving output data to file...")
