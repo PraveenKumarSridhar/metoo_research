@@ -165,6 +165,7 @@ def go(input):
     # find users to get more users for after subtracting users for which this process is completed
     to_hit_users = get_to_hit_users(input['user_data_folder'], user_data)
     logger.info(f"Need to get info for {to_hit_users.shape[0]}")
+    logger.info(to_hit_users.head(30))
     
     logger.info("Hitting the get_tweets API for each user...")
     # hit & save twitter API to get more tweets for each user
