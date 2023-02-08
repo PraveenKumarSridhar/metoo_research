@@ -129,6 +129,7 @@ def get_to_hit_users(output_folder, user_data):
     to_hit_users_data['needed_tweets'] = to_hit_users_data['needed_tweets'].apply(lambda x: max(x,5))
     # mod to pull only 50
     to_hit_users_data['needed_tweets'] = to_hit_users_data['needed_tweets'].apply(lambda x: min(x,50))
+    to_hit_users_data.drop_duplicates(inplace=True)
     return to_hit_users_data 
 
 def clean_additional_tweets(recent_tweets):
