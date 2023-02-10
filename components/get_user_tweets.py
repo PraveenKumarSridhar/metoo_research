@@ -116,8 +116,8 @@ def save_more_twt_users(data, author_data, output_folder, tweets_to_save = 50):
         os.makedirs(output_folder)
     author_list = author_data[author_data['tweet_count'] >= tweets_to_save]['user_name'].to_list()
     for author in author_list:
-        sample_tweets = data[data['user_name'] == author].head(tweets_to_save).to_dict('records')
         if not os.path.isfile(os.path.join(output_folder,'{}_statuses.json.gz'.format(author))):
+            sample_tweets = data[data['user_name'] == author].head(tweets_to_save).to_dict('records')
             write_gz(output_folder,'{}_statuses.json.gz'.format(author), sample_tweets)
     
 def get_to_hit_users(output_folder, user_data):
