@@ -56,14 +56,14 @@ def choose_file(input_dir):
     except Exception as e:
         logger.error(f"Exception occured {e}")
 
-def read_and_rename(file_path):
+def read_and_remove(file_path):
     data = (pd.read_csv(file_path, sep = "\t")
         .drop_duplicates()
         .fillna('')
         )
 
     new_fname = file_path.replace('.csv','_in_pipe.csv')
-    os.rename(file_path, new_fname)
+    os.remove(file_path, new_fname)
     return data
 
 def preprocess(text):
@@ -99,7 +99,7 @@ def go(input):
         input_file_path = choose_file(input['input_path'])
         logger.info(f"Selected input file {input_file_path}")
         input_fname = input_file_path.split('/')[-1]
-        data = read_and_rename(input_file_path)
+        data = read_and_remove(input_file_path)
 
         out_path = os.path.join(input['output_path'], input_fname)
         
