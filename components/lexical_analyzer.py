@@ -7,7 +7,7 @@ from nltk.tokenize import TweetTokenizer
 from statistics import mean
 from pathlib import Path
 
-certainity = pd.read_csv('./data/lexical/certainity.txt', delimiter=',')
+certainity = pd.read_csv('./data/lexical/Certainty.txt', delimiter=',')
 negation = pd.read_csv('./data/lexical/negation.txt', delimiter=',')
 eval_lex = pd.read_csv('./data/lexical/EvaluativeLexicon20.txt', delimiter=',')
 
