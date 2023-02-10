@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-import logging, os
+import logging, os, csv
 import pandas as pd
 import numpy as np
 # from gensim.utils import simple_preprocess
