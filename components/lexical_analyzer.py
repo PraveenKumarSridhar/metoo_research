@@ -30,7 +30,7 @@ def go(input):
         data = pd.read_csv(input['input_path'], sep = "\t", index_col = 0)
 
         data['valence_sum'], data['extreme_sum'], data['emotion_sum'],\
-         data['valence_avg'], data['extreme_avg'], data['extreme_avg'] =\
+         data['valence_avg'], data['extreme_avg'], data['emotion_avg'] =\
             zip(*data['raw full text'].apply(get_emotions))
 
         logger.info("Writing data to output file...")
