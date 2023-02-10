@@ -6,4 +6,4 @@
 #SBATCH --output=runs/lexical_anlayzer-%j.out
 source ~/miniconda3/bin/activate
 conda activate main_v3
-python main.py main.steps=lexical_anlayzer
+python main.py main.steps=lexical_analyzer
