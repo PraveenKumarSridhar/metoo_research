@@ -74,7 +74,7 @@ def get_user_ids(author_data, users_wt_ids, out_pth, client):
         logger.error('Error in get_users_id: ' + str(e))
         raise e
 
-def identify_less_twt_users(input_file, output_folder, output_file, clients):
+def identify_less_twt_users(input_file, output_folder, output_file, clients, get_user_id):
     out_pth = os.path.join(output_folder, output_file)
 
     logger.info("Reading data from input file...")
@@ -86,7 +86,7 @@ def identify_less_twt_users(input_file, output_folder, output_file, clients):
     users_wt_ids = []
     if os.path.isfile(out_pth):
         written_author_data = pd.read_csv(out_pth)
-        if written_author_data.shape[0] == author_data[author_data['tweet_count'] < 200].shape[0]:
+        if not get_user_id:
             logger.info("Resaving 50+ author data...")
             save_more_twt_users(data, author_data, output_folder)
             return written_author_data, data
@@ -96,8 +96,8 @@ def identify_less_twt_users(input_file, output_folder, output_file, clients):
     logger.info("Saving tweets for users with more than 200 tweets in dataset")
     save_more_twt_users(data, author_data, output_folder)
 
-    author_data = author_data[author_data['tweet_count'] < 200]
-    author_data['needed_tweets'] = 200 - author_data['tweet_count']
+    author_data = author_data[author_data['tweet_count'] < 50]
+    author_data['needed_tweets'] = 50 - author_data['tweet_count']
     
     logger.info("Hitting the get_user_id API in batches...")
     author_data = get_user_ids(author_data, users_wt_ids, out_pth, clients)
@@ -117,7 +117,8 @@ def save_more_twt_users(data, author_data, output_folder, tweets_to_save = 50):
     author_list = author_data[author_data['tweet_count'] >= tweets_to_save]['user_name'].to_list()
     for author in author_list:
         sample_tweets = data[data['user_name'] == author].head(tweets_to_save).to_dict('records')
-        write_gz(output_folder,'{}_statuses.json.gz'.format(author), sample_tweets)
+        if not os.path.isfile(os.path.join(output_folder,'{}_statuses.json.gz'.format(author))):
+            write_gz(output_folder,'{}_statuses.json.gz'.format(author), sample_tweets)
     
 def get_to_hit_users(output_folder, user_data):
 
@@ -165,7 +166,7 @@ def go(input):
     # input has input_filename, output_folder, user_filename 
 
     # find users to get more tweets for and find users with 200 or more tweets save them in user_tweets folder 
-    user_data, data = identify_less_twt_users(input['input_path'], input['user_data_folder'], input['less_twt_users_file'], client)
+    user_data, data = identify_less_twt_users(input['input_path'], input['user_data_folder'], input['less_twt_users_file'], client, input['get_user_id'])
     
     logger.info("Getting to hit user data...")
     # find users to get more users for after subtracting users for which this process is completed
