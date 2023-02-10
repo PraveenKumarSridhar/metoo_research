@@ -2,29 +2,42 @@ from argparse import ArgumentParser
 import logging, os
 import pandas as pd
 import numpy as np
-from gensim.utils import simple_preprocess
-# import spacy
-from pathlib import Path
-# from transformers import pipeline
-import torch
-# import spacy
-# from spacytextblob.spacytextblob import SpacyTextBlob
+# from gensim.utils import simple_preprocess
+from transformers import AutoModelForSequenceClassification
+from transformers import TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer
 from transformers import pipeline
+from scipy.special import softmax
+from pathlib import Path
+import torch
+import urllib.request
+
 
 task='emotion'
 # MODEL = 'j-hartmann/emotion-english-distilroberta-base'
 MODEL = f"cardiffnlp/twitter-roberta-base-{task}"
-classifier = pipeline("text-classification", model= MODEL, return_all_scores=True, device=0)
+# classifier = pipeline("text-classification", model= MODEL, return_all_scores=True, device=0)
+if not os.path.isdir('cardiffnlp'):
+    MODEL = f'cardiffnlp/twitter-roberta-base-{task}'
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+else:
+    MODEL = f'cardiffnlp/twitter-roberta-base-{task}/'
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
 
+# download label mapping
+mapping_link = f"https://raw.githubusercontent.com/cardiffnlp/tweeteval/main/datasets/{task}/mapping.txt"
+with urllib.request.urlopen(mapping_link) as f:
+    html = f.read().decode('utf-8').split("\n")
+    csvreader = csv.reader(html, delimiter='\t')
+labels = [row[1] for row in csvreader if len(row) > 1]
+
+# PT
+model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+model.save_pretrained(MODEL)
+tokenizer.save_pretrained(MODEL)
 
 logger = logging.getLogger()
-# nlp = spacy.load('en_core_web_sm')
-# nlp.add_pipe('spacytextblob')
 
-# def use_spacy_get_sentiment(text):
-#     spacy_txt = nlp(text)
-#     sentiment = spacy_txt._.blob.polarity
-#     return 'pos' if sentiment > 0 else 'neg'  
 def write_csv(file_pth, data):
     if not os.path.exists(file_pth):
         data.to_csv(file_pth, sep = "\t", index=False)
@@ -53,10 +66,27 @@ def read_and_rename(file_path):
     os.rename(file_path, new_fname)
     return data
 
-def get_emotions(tweets_list):
-    # tweets are of max length 100K
-    result_list = classifier(tweets_list)
-    return [max(result, key=lambda x:x['score'])['label'] for result in result_list]
+def preprocess(text):
+    new_text = []
+    for t in text.split(" "):
+        t = '@user' if t.startswith('@') and len(t) > 1 else t
+        t = 'http' if t.startswith('http') else t
+        new_text.append(t)
+    return " ".join(new_text)
+
+# def get_emotions(tweets_list):
+#     # tweets are of max length 100K
+#     result_list = classifier(tweets_list)
+#     return [max(result, key=lambda x:x['score'])['label'] for result in result_list]
+
+def get_emotion_single(text):
+    text = preprocess(text)
+    encoded_input = tokenizer(text, return_tensors='pt')
+    output = model(**encoded_input)
+    scores = output[0][0].detach().numpy()
+    scores = softmax(scores)
+    ranking = np.argmax(scores)
+    return labels[ranking], np.max(scores)
 
 def go(input):
     try:
@@ -79,13 +109,8 @@ def go(input):
             logger.info(f'Processing frame {frame_no}...')
             tweets_list = frame['raw full text'].to_list()
             # get_emotions for each batch of 100k
-            emotions = get_emotions(tweets_list)
+            emotions = [get_emotion_single(tweet) for tweet in tweets_list]
             frame['emotions'] = emotions
             write_csv(out_path, frame)
     except Exception as e:
         logger.error(f"Error processing {e}")
-    # data['sentiment'] = data['Full Text'].apply(lambda x: sentiment_pipeline(x)[0]['label'])
-    # data['sentiment'] = data['Full Text'].apply(lambda x: use_spacy_get_sentiment(x))
-
-
-    # data.to_csv(artifact_path / input['output'], sep = "\t")
