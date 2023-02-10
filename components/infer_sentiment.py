@@ -63,7 +63,7 @@ def read_and_remove(file_path):
         )
 
     new_fname = file_path.replace('.csv','_in_pipe.csv')
-    os.remove(file_path, new_fname)
+    os.remove(file_path)
     return data
 
 def preprocess(text):
