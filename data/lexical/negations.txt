@@ -1,0 +1,285 @@
+Negations,
+aint,4
+ain't,5
+aint all that,13
+ain't all that,14
+aint really,11
+ain't really,12
+aint so,7
+ain't so,8
+aint that,9
+ain't that,10
+aint the,8
+ain't the,9
+aint very,9
+ain't very,10
+arent,5
+aren't,6
+arent that,10
+aren't that,11
+arent the,9
+aren't the,10
+arent too,9
+aren't too,10
+arent very,10
+aren't very,11
+at no time,10
+at no time a,12
+at no time an,13
+at no time as,13
+at no time is,13
+at no time is a,15
+at no time is an,16
+at no time is it,16
+at no time was,14
+at no time was it,17
+at no times,11
+at no times a,13
+at no times an,14
+at no times as,14
+at no times is,14
+at no times is a,16
+at no times is an,17
+at no times is it,17
+at no times was,15
+at no times was it,18
+barely,6
+barely as,9
+barely is,9
+barely is a,11
+barely is an,12
+barely the,10
+barely was,10
+by no means,11
+by no means a,13
+by no means an,14
+by no means as,14
+by no means is,14
+by no means is a,16
+by no means is an,17
+by no means the,15
+by no means was a,17
+by no means was an,18
+cant be all that,16
+can't be all that,17
+cant be that,12
+can't be that,13
+cant say anything,17
+can't say anything,18
+couldnt be all that,19
+couldn't be all that,20
+couldnt be that,15
+couldn't be that,16
+couldnt say anything,20
+couldn't say anything,21
+didnt look,10
+didn't look,11
+didnt seem,10
+didn't seem,11
+didnt smell,11
+didn't smell,12
+didnt taste,11
+didn't taste,12
+difficult to find anything,26
+difficult to find one,21
+dont,4
+don't,5
+dont expect,11
+don't expect,12
+dont expect a,13
+don't expect a,14
+dont expect an,14
+don't expect an,15
+dont expect the,15
+don't expect the,16
+dont listen to,14
+don't listen to,15
+dont listen to the,18
+don't listen to the,19
+hard to find anything,21
+hard to find one,16
+hardly,6
+hardly as,9
+hardly is,9
+hardly is a,11
+hardly is an,12
+hardly was,10
+have yet to get a,17
+have yet to get an,18
+have yet to get one,19
+havent had a,12
+haven't had a,13
+havent had an,13
+havent had an,13
+haven't had an,14
+haven't had an,14
+havent had one,14
+haven't had one,15
+ignore the,10
+impossible to find anything,27
+impossible to find one,22
+isnt,4
+isn't,5
+isnt a,6
+isn't a,7
+isnt all that,13
+isn't all that,14
+isnt an,7
+isn't an,8
+isnt anything,13
+isn't anything,14
+isnt half,9
+isn't half,10
+isnt one,8
+isn't one,9
+isnt so,7
+isn't so,8
+isnt that,9
+isn't that,10
+isnt the,8
+isn't the,9
+isnt to,7
+isn't to,8
+isnt too,8
+isn't too,9
+isnt very,9
+isn't very,10
+less,4
+neither,7
+neither the,11
+never,5
+never a,7
+never actually got a,20
+never actually got an,21
+never actually had a,20
+never actually had an,21
+never all that,14
+never be,8
+never experienced,17
+never experienced a,19
+never experienced an,20
+never had,9
+never had a,11
+never had an,12
+never had one,13
+never really,12
+never really got a,18
+never really got an,19
+never really had a,18
+never really had an,19
+never really is,15
+never really was,16
+never the,9
+never very,10
+never was,9
+no,2
+no longer,9
+no longer as,12
+no longer is,12
+no longer is a,14
+no longer is an,15
+no longer the,13
+no longer was,13
+no more,7
+no where,8
+no where as,11
+non,3
+none of that,12
+nor,3
+nor the,7
+not,3
+not a,5
+not all,7
+not all that,12
+not all that,12
+not always,10
+not an,6
+not as,6
+not ever,8
+not had a,9
+not had an,10
+not had an,10
+not had one,11
+not once have I had a,21
+not really,10
+not so,6
+not that,8
+not that thats a,16
+not that that's a,17
+not that they are,17
+not that they arent,19
+not that they aren't,20
+not that they were,18
+not that they werent,20
+not that they weren't,21
+not the,7
+not to,6
+not too,7
+not very,8
+nothing,7
+nothing about it is,19
+nothing about it was,20
+nothing is,10
+nothing to,10
+nothing too,11
+nothing was,11
+nowhere,7
+nowhere as,10
+rarely,6
+rarely as,9
+rarely is,9
+rarely is a,11
+rarely is an,12
+rarely the,10
+rarely was,10
+seldom as,9
+seldom is,9
+seldom is a,11
+seldom is an,12
+seldom is an,12
+seldom the,10
+seldom was,10
+seldomly,8
+seldomly as,11
+seldomly is,11
+seldomly is a,13
+seldomly is an,14
+seldomly the,12
+seldomly was,12
+wasnt,5
+wasnt a,7
+wasn't a,8
+wasnt all that,14
+wasn't all that,15
+wasnt an,8
+wasn't an,9
+wasnt anything,14
+wasn't anything,15
+wasnt one,9
+wasn't one,10
+wasnt so,8
+wasn't so,9
+wasnt that,10
+wasn't that,11
+wasnt the,9
+wasn't the,10
+wasnt to,8
+wasn't to,9
+wasnt too,9
+wasn't too,10
+wasnt very,10
+wasn't very,11
+werent,6
+weren't,7
+werent that,11
+weren't that,12
+werent the,9
+weren't the,11
+werent to,9
+weren't to,10
+werent too,10
+weren't too,11
+werent very,11
+weren't very,12
+without,7
+would have been,15
