@@ -87,7 +87,8 @@ def identify_less_twt_users(input_file, output_folder, output_file, clients):
     if os.path.isfile(out_pth):
         written_author_data = pd.read_csv(out_pth)
         if written_author_data.shape[0] == author_data[author_data['tweet_count'] < 200].shape[0]:
-            # save_more_twt_users(data, author_data, output_folder)
+            logger.info("Resaving 50+ author data...")
+            save_more_twt_users(data, author_data, output_folder)
             return written_author_data, data
         else:
             users_wt_ids = written_author_data[written_author_data['user_id'].notna()]['user_name'].to_list()
@@ -113,19 +114,23 @@ def save_more_twt_users(data, author_data, output_folder, tweets_to_save = 50):
     # create output folder if it does not exist create it
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-        author_list = author_data[author_data['tweet_count'] >= tweets_to_save]['user_name'].to_list()
-        for author in author_list:
-            sample_tweets = data[data['user_name'] == author].head(tweets_to_save).to_dict('records')
-            write_gz(output_folder,'{}_statuses.json.gz'.format(author), sample_tweets)
+    author_list = author_data[author_data['tweet_count'] >= tweets_to_save]['user_name'].to_list()
+    for author in author_list:
+        sample_tweets = data[data['user_name'] == author].head(tweets_to_save).to_dict('records')
+        write_gz(output_folder,'{}_statuses.json.gz'.format(author), sample_tweets)
     
 def get_to_hit_users(output_folder, user_data):
-    saved_files = [fn for fn in os.listdir(output_folder) if fn.endswith('.json.gz')]
-    user_names = [fn.split('_')[0] for fn in saved_files]
+
+    user_names = [fn.replace('_statuses.json.gz','')  for fn in os.listdir(output_folder) \
+        if fn.endswith('.json.gz')]
     to_hit_users_data = user_data[~user_data['user_name'].isin(user_names)]
+
     to_hit_users_data['needed_tweets'] = to_hit_users_data['needed_tweets']\
         .apply(lambda x: [100,x-100] if x > 100 else [x])
+
     to_hit_users_data = to_hit_users_data.explode('needed_tweets')
     # need to fetch a min of 5 tweets per user
+    to_hit_users_data = to_hit_users_data[to_hit_users_data['tweet_count']<50]
     to_hit_users_data['needed_tweets'] = to_hit_users_data['needed_tweets'].apply(lambda x: max(x,5))
     # mod to pull only 50
     to_hit_users_data['needed_tweets'] = to_hit_users_data['needed_tweets'].apply(lambda x: min(x,50))
