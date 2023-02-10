@@ -18,9 +18,9 @@ def get_emotions(tweet):
     # Word,Valence,Extremity,Emotionality
     tweet_tokens = tk.tokenize(tweet)
     found_words = eval_lex[eval_lex['Word'].isin(tweet_tokens)]
-    valence_sum, valence_avg = sum(found_words['Valence']), mean(found_words['Valence'])
-    extreme_sum, extreme_avg = sum(found_words['Extremity']), mean(found_words['Extremity'])
-    emotion_sum, emotion_avg = sum(found_words['Emotionality']), mean(found_words['Emotionality'])
+    valence_sum, valence_avg = sum(found_words['Valence']), -1 if sum(found_words['Valence']) ==0 else mean(found_words['Valence'])
+    extreme_sum, extreme_avg = sum(found_words['Extremity']), -1 if sum(found_words['Extremity']) ==0 else mean(found_words['Extremity'])
+    emotion_sum, emotion_avg = sum(found_words['Emotionality']), -1 if sum(found_words['Emotionality']) ==0 else mean(found_words['Emotionality'])
     return valence_sum, extreme_sum, emotion_sum, valence_avg, extreme_avg, emotion_avg
 
 def go(input):
