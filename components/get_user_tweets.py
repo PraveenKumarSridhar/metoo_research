@@ -150,7 +150,7 @@ def get_save_more_tweets(output_folder, data ,user_name, user_id, contained_twee
             result = client.get_users_tweets(id = user_id, max_results = str(needed_tweets))
             additional_tweets = result.data
         except Exception as e:
-            logger.error(f'Exception for username:{user_name},userid:{user_id} error:{e}; error_msg {result}')
+            logger.error(f'Exception for username:{user_name},userid:{user_id} error:{e};')
         if additional_tweets:
             additional_tweets = clean_additional_tweets(additional_tweets)
         else:
