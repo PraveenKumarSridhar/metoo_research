@@ -39,7 +39,7 @@ components:
     user_data_folder: components/artifacts/user_data/
     less_twt_users_file: less_tweets_user_data.csv
     get_user_id: False
-    TWITTER_API_KEY_NAME: MEG_TWITTER_API_KEY
+    TWITTER_API_KEY_NAME: PROF_AMIR_TWITTER_API_KEY
 
   infer_demographics:
     input_path: components/artifacts/preprocess_data.csv
