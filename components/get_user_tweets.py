@@ -147,9 +147,11 @@ def get_save_more_tweets(output_folder, data ,user_name, user_id, contained_twee
     # logger.info(f'user id {user_id}, for user {user_name}')
     if user_id != 'NOT FOUND':
         try:
-            additional_tweets = client.get_users_tweets(id = user_id, max_results = str(needed_tweets)).data
-        except:
-            logger.error(f'invalid user id {user_id}, for user {user_name}')
+            result = client.get_users_tweets(id = user_id, max_results = str(needed_tweets))
+            additional_tweets = result.data
+        except Exception as e:
+            error = result.error
+            logger.error(f'Exception for username:{user_name},userid:{user_id} error:{e}; error_msg {error}')
         if additional_tweets:
             additional_tweets = clean_additional_tweets(additional_tweets)
         else:
