@@ -14,8 +14,9 @@ import tweetnlp
 import urllib.request
 
 
-MODEL = 'j-hartmann/emotion-english-distilroberta-base'
-classifier = pipeline("text-classification", model= MODEL, return_all_scores=True, device=0)
+MODEL = "cardiffnlp/twitter-roberta-base-2021-124m-emotion"
+classifier = tweetnlp.Classifier(MODEL, max_length=64)
+
 
 logger = logging.getLogger()
 
@@ -57,8 +58,8 @@ def preprocess(text):
 
 def get_emotions(tweets_list):
     # tweets are of max length 100K
-    result_list = classifier(tweets_list)
-    return [max(result, key=lambda x:x['score'])['label'] for result in result_list]
+    result_list = classifier(tweets_list,  batch_size = 32, return_probability = True)
+    return [result['label'] for result in result_list]
 
 def go(input):
     try:
