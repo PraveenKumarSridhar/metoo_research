@@ -58,7 +58,7 @@ def preprocess(text):
 
 def get_emotions(tweets_list):
     # tweets are of max length 100K
-    result_list = classifier(tweets_list,  batch_size = 32, return_probability = True)
+    result_list = classifier.predict(tweets_list,  batch_size = 32, return_probability = True)
     return [result['label'] for result in result_list]
 
 def go(input):
