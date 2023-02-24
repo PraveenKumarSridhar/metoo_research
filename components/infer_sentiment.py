@@ -10,14 +10,11 @@ from transformers import pipeline
 from scipy.special import softmax
 from pathlib import Path
 import torch
-import tweetnlp
 import urllib.request
 
 
-MODEL = "cardiffnlp/twitter-roberta-base-2021-124m-emotion"
-classifier = tweetnlp.Classifier(MODEL, max_length=64)
-
-
+MODEL = 'j-hartmann/emotion-english-distilroberta-base'
+classifier = pipeline("text-classification", model= MODEL, return_all_scores=True, device=0)
 logger = logging.getLogger()
 
 def write_csv(file_pth, data):
@@ -58,8 +55,8 @@ def preprocess(text):
 
 def get_emotions(tweets_list):
     # tweets are of max length 100K
-    result_list = classifier.predict(tweets_list,  batch_size = 32, return_probability = True)
-    return [result['label'] for result in result_list]
+    result_list = classifier(tweets_list)
+    return [max(result, key=lambda x:x['score'])['label'] for result in result_list]
 
 def go(input):
     try:
@@ -77,7 +74,7 @@ def go(input):
         out_path = os.path.join(input['output_path'], input_fname)
         logger.info('Starting Preprocessing')
         data['raw full text'] = data['raw full text'].apply(preprocess)
-        logger.info('Ending Preprocessing')
+        logger.info('Ending Preprocessing')        
         batches = data.groupby(np.arange(len(data.index))//100000)
 
         for (frame_no, frame) in batches:
