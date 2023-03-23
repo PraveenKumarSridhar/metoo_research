@@ -13,7 +13,7 @@ from demographer.ethnicity_selfreport_neural import EthSelfReportNeuralDemograph
 import pandas as pd
 from pathlib import Path
 from distutils.dir_util import copy_tree
-import os, datetime
+import os, datetime, gzip, json
 
 import numpy as np
 
@@ -23,9 +23,16 @@ def setup_ethnicity_models():
     if 'ethnicity_selfreport' not in os.listdir(to_directory):
         copy_tree(from_directory, to_directory)
 
+def read_tweet_text_from_timeline_custom(user_id, timeline_dir):
+    with gzip.open(os.path.join(timeline_dir, "{}_statuses.json.gz".format(user_id)), 'r') as f:
+        data = f.read()
+        data = json.loads(data)
+        tweets = [tweet.get('text', []) for tweet in data]
+    return {'user_id': user_id, 'texts': tweets}
+
 
 def get_demographics(user_id, user_data_dir, demographer_list):
-    user_with_multiple_texts = read_tweet_text_from_timeline(user_id = user_id, timeline_dir = user_data_dir)
+    user_with_multiple_texts = read_tweet_text_from_timeline_custom(user_id = user_id, timeline_dir = user_data_dir)
     logger.info(user_with_multiple_texts)
     result = process_multiple_tweet_texts(user_with_multiple_texts, demographer_list)
     return result['eth_selfreport_bert']['value']
