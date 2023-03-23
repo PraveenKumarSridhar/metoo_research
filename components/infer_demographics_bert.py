@@ -38,7 +38,7 @@ def go(input):
     artifact_path = Path('components/artifacts/')
 
     user_data = pd.read_csv(input['user_data_path']).head(5)
-
+    logger.info(f'Started demographer for {user_data.shape}')
     user_data['user_name'] = user_data['fname'].apply(lambda x: x.replace('_statuses.json.gz',''))
 
     demographer_list = [
