@@ -45,6 +45,11 @@ components:
     input_path: components/artifacts/preprocess_data.csv
     output: inferred_demographics.csv
 
+  infer_demographics_bert:
+    user_data_path: ./data/user_data.csv
+    user_timeline_dir: /work/socialmedia/metoo/user_data/user_data_50/
+    output: inferred_demographics_bert.csv
+
   postprocess_data:
     input_path: components/artifacts/append_topics.csv
     brand_path: ./data/brandfulllist.xlsx
