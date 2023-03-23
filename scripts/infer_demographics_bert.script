@@ -5,5 +5,5 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/infer_demographics-%j.out
 source ~/miniconda3/bin/activate
-conda activate main
+conda activate main_v3
 python main.py main.steps=infer_demographics_bert
