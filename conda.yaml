@@ -25,3 +25,4 @@ dependencies:
     - spacytextblob
     - tweepy
     - tweetnlp
+    - pytorch-transformers >= 1.2.0
