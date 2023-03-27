@@ -55,7 +55,7 @@ def go(input):
     user_data['user_name'] = user_data['fname'].apply(lambda x: x.replace('_statuses.json.gz',''))
 
     demographer_list = [
-            EthSelfReportBERTDemographer(bert_model='distilbert-base-uncased', use_cuda=True, embed_dir='tmp_embed_gpu', tweet_limit=50)
+            EthSelfReportBERTDemographer(bert_model='distilbert-base-uncased', use_cuda=True, embed_dir='tmp_embed', tweet_limit=50)
     ]
     user_data['ethnicity'] = user_data['user_name'].apply(lambda x: get_demographics(x, input['user_timeline_dir'], demographer_list))
     user_data.to_csv(artifact_path / input['output'])
