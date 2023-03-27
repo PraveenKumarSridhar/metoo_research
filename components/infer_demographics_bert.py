@@ -47,7 +47,7 @@ def choose_file(input_dir):
         logger.info(f'files in directory {input_dir}')
         logger.info(f'files in directory {input_dir} are {os.listdir(input_dir)}')
         fnames = sorted(os.listdir(input_dir))
-        selected_fname = [fname for fname in fnames if not fname.endswith('_in_pipe.csv')][0] 
+        selected_fname = [fname for fname in fnames if not fname.endswith('_in_pipe.csv') and fname != 'processed'][0] 
         selected_fpath = os.path.join(input_dir,selected_fname)       
         return selected_fpath
     except Exception as e:
