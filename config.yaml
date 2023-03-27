@@ -46,9 +46,9 @@ components:
     output: inferred_demographics.csv
 
   infer_demographics_bert:
-    user_data_path: ./data/user_data.csv
+    input_path: ./data/page/
     user_timeline_dir: /work/socialmedia/metoo/user_data/user_data_50/
-    output: inferred_demographics_bert.csv
+    output_path: ./data/page/processed/
 
   postprocess_data:
     input_path: components/artifacts/append_topics.csv
@@ -62,9 +62,9 @@ components:
     celebrity_thresh: [1000000]
   
   page_data:
-    input_path: components/artifacts/postprocess_data.csv
-    out_folder_name: page/
-    output_path: components/artifacts/postprocess_data_wt_emotion.csv
+    input_path: ./data/user_data.csv
+    out_folder_name: ./data/page/
+    output_path: components/artifacts/inferred_demographics_bert.csv
   
   infer_sentiment:
     input_path: components/artifacts/page/

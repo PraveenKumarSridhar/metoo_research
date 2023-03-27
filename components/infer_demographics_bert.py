@@ -41,6 +41,28 @@ def get_demographics(user_id, user_data_dir, demographer_list):
         logger.error(e)
         return 'Error'
 
+def choose_file(input_dir):
+    try:
+        # sort and choose the first file without the in_pipe extension
+        logger.info(f'files in directory {input_dir}')
+        logger.info(f'files in directory {input_dir} are {os.listdir(input_dir)}')
+        fnames = sorted(os.listdir(input_dir))
+        selected_fname = [fname for fname in fnames if not fname.endswith('_in_pipe.csv')][0] 
+        selected_fpath = os.path.join(input_dir,selected_fname)       
+        return selected_fpath
+    except Exception as e:
+        logger.error(f"Exception occured {e}")
+
+def read_and_remove(file_path):
+    data = (pd.read_csv(file_path)
+        .drop_duplicates()
+        .fillna('')
+        )
+
+    new_fname = file_path.replace('.csv','_in_pipe.csv')
+    os.remove(file_path)
+    return data
+
 def go(input):
     logger.info('Starting set up for demographer')
     setup_ethnicity_models()
@@ -48,8 +70,13 @@ def go(input):
 
 
     artifact_path = Path('components/artifacts/')
+    input_file_path = choose_file(input['input_path'])
+    
+    logger.info(f"Selected input file {input_file_path}")
+    
+    input_fname = input_file_path.split('/')[-1]
+    user_data = read_and_remove(input_file_path)
 
-    user_data = pd.read_csv(input['user_data_path'])
     user_data =  user_data[user_data['num of data']>=50]
     logger.info(f'Started demographer for {user_data.shape}')
     user_data['user_name'] = user_data['fname'].apply(lambda x: x.replace('_statuses.json.gz',''))
@@ -58,4 +85,6 @@ def go(input):
             EthSelfReportBERTDemographer(bert_model='distilbert-base-uncased', use_cuda=True, embed_dir='tmp_embed', tweet_limit=50)
     ]
     user_data['ethnicity'] = user_data['user_name'].apply(lambda x: get_demographics(x, input['user_timeline_dir'], demographer_list))
-    user_data.to_csv(artifact_path / input['output'])
+    
+    out_path = os.path.join(input['output_path'], input_fname)
+    user_data.to_csv(out_path)
