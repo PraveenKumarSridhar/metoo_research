@@ -46,9 +46,11 @@ components:
     output: inferred_demographics.csv
 
   infer_demographics_bert:
+    page: False
     input_path: ./data/page/
     user_timeline_dir: /work/socialmedia/metoo/user_data/user_data_50/
-    output_path: ./data/page/processed/
+    output_path: components/artifacts/inferred_demographics_bert.csv
+    tmp_output_path: components/artifacts/tmp_inferred_demographics_bert.csv
 
   postprocess_data:
     input_path: components/artifacts/append_topics.csv
