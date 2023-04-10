@@ -116,6 +116,7 @@ def go(input):
 
         user_data =  user_data[user_data['num of data']>=50]
     else:
+        logger.info(f'Started demographer in non page mode')
         user_data = pd.read_csv(input['input_path'])
         user_data_finished = user_data[user_data['ethnicity']!='Error']
         user_data = user_data[user_data['ethnicity']!='Error']
