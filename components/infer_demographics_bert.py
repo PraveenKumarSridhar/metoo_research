@@ -119,7 +119,7 @@ def go(input):
         logger.info(f'Started demographer in non page mode')
         user_data = pd.read_csv(input['input_path'])
         user_data_finished = user_data[user_data['ethnicity']!='Error']
-        user_data = user_data[user_data['ethnicity']!='Error']
+        user_data = user_data[user_data['ethnicity']=='Error']
 
     logger.info(f'Started demographer for {user_data.shape}')
     user_data['user_name'] = user_data['fname'].apply(lambda x: x.replace('_statuses.json.gz',''))
