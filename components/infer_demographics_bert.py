@@ -63,7 +63,7 @@ def read_tweet_text_from_timeline_custom(user_id, timeline_dir):
         data = f.read()
         data = json.loads(data)
         tweets = [tweet.get('text', []) for tweet in data]
-        tweets = [preprocess(tweet) for tweet in tweets if tweet == tweet] # to remove nans
+        tweets = [preprocess(tweet) for tweet in tweets if str(tweet) != 'nan'] # to remove nans
     return {'user_id': user_id, 'texts': tweets}
 
 
