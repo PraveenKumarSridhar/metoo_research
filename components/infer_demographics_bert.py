@@ -51,6 +51,7 @@ def remove_emoji(string):
 def preprocess(text):
     new_text = []
     text = remove_emoji(text)
+    text = text.replace('\n', ' ')
     for t in text.split(" "):
         t = '@user' if t.startswith('@') and len(t) > 1 else t
         t = 'http' if t.startswith('http') else t
@@ -74,6 +75,7 @@ def get_demographics(user_id, user_data_dir, demographer_list):
         return result['eth_selfreport_bert']['value']
     except Exception as e:
         logger.error(e)
+        logger.error(user_id)
         return 'Error'
 
 def choose_file(input_dir):
@@ -125,7 +127,8 @@ def go(input):
     user_data['user_name'] = user_data['fname'].apply(lambda x: x.replace('_statuses.json.gz',''))
 
     demographer_list = [
-            EthSelfReportBERTDemographer(bert_model='distilbert-base-uncased', use_cuda=True, embed_dir='tmp_embed', tweet_limit=50)
+            EthSelfReportBERTDemographer(bert_model='distilbert-base-uncased',\
+                                          use_cuda=True, embed_dir='tmp_embed', tweet_limit=50)
     ]
     user_data['ethnicity'] = user_data['user_name'].apply(lambda x: get_demographics(x, input['user_timeline_dir'], demographer_list))
     
