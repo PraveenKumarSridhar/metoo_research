@@ -55,7 +55,7 @@ def preprocess(text):
         t = '@user' if t.startswith('@') and len(t) > 1 else t
         t = 'http' if t.startswith('http') else t
         new_text.append(t)
-    return " ".join(new_text)
+    return " ".join(new_text).strip()
 
 def read_tweet_text_from_timeline_custom(user_id, timeline_dir):
     with gzip.open(os.path.join(timeline_dir, "{}_statuses.json.gz".format(user_id)), 'r') as f:
