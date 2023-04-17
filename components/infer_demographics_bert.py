@@ -68,15 +68,15 @@ def read_tweet_text_from_timeline_custom(user_id, timeline_dir):
 
 
 def get_demographics(user_id, user_data_dir, demographer_list):
-    try:
-        user_with_multiple_texts = read_tweet_text_from_timeline_custom(user_id = user_id, timeline_dir = user_data_dir)
-        # logger.info(user_with_multiple_texts)
-        result = process_multiple_tweet_texts(user_with_multiple_texts, demographer_list)
-        return result['eth_selfreport_bert']['value']
-    except Exception as e:
-        logger.error(e)
-        logger.error(user_id)
-        return 'Error'
+    # try:
+    user_with_multiple_texts = read_tweet_text_from_timeline_custom(user_id = user_id, timeline_dir = user_data_dir)
+    # logger.info(user_with_multiple_texts)
+    result = process_multiple_tweet_texts(user_with_multiple_texts, demographer_list)
+    return result['eth_selfreport_bert']['value']
+    # except Exception as e:
+    #     logger.error(e)
+    #     logger.error(user_id)
+    #     return 'Error'
 
 def choose_file(input_dir):
     try:
