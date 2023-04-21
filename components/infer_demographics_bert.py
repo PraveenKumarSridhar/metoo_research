@@ -75,7 +75,7 @@ def get_demographics(user_id, user_data_dir, demographer_list):
         result = process_multiple_tweet_texts(user_with_multiple_texts, demographer_list)
         return result['eth_selfreport_bert']['value']
     except Exception as e:
-        logger.error(e)
+        logger.error(e,  exc_info=True)
         logger.error(traceback.format_exc())
         logger.error(user_id)
         return 'Error'
