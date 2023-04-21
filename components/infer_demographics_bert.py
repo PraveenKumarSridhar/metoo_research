@@ -76,7 +76,7 @@ def get_demographics(user_id, user_data_dir, demographer_list):
         return result['eth_selfreport_bert']['value']
     except Exception as e:
         logger.error(e)
-        print(traceback.format_exc())
+        logger.error(traceback.format_exc())
         logger.error(user_id)
         return 'Error'
 
