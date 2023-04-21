@@ -143,4 +143,5 @@ def go(input):
         user_data.to_csv(input['tmp_output_path'])
         user_data = pd.concat([user_data_finished, user_data])
         user_data.to_csv(input['output_path'])
+        logger.info(user_data.head())
 
