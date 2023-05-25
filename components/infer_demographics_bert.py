@@ -130,7 +130,7 @@ def go(input):
 
     demographer_list = [
             EthSelfReportBERTDemographer(bert_model='distilbert-base-uncased',\
-                                          use_cuda=True, embed_dir='tmp_embed_errored', tweet_limit=50)
+                                          use_cuda=False, embed_dir='tmp_embed_errored', tweet_limit=50)
     ]
     user_data['ethnicity'] = user_data['user_name'].apply(lambda x: get_demographics(x, input['user_timeline_dir'], demographer_list))
     
