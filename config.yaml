@@ -3,38 +3,75 @@ main:
   project_name: metoo_research
   experiment_name: dev
   steps: all
-
 components:
   consolidate_data:
-    input_path: ../../data/metoo_data.zip
-    samp_size: 1
+    input_path: ./data/metoo_data.zip
+    output: consolidated_data.csv
+    samp_size: -1
 
   preprocess_data:
-    input_path: ../consolidate_data/artifacts/metoo_data.csv
+    input_path: components/artifacts/consolidated_data.csv
+    output: preprocess_data.csv
     exclude: metoo,rt
 
   # infer_news:
-  #   input_path: ../preprocess_data/artifacts/metoo_data.csv
+  #   input_path: components/artifacts/preprocess_data.csv
   #   train_size: 0.75
   #   random_state: 0
   #   vocab_size: 10000
 
   train_lda:
-    input_path: ../preprocess_data/artifacts/metoo_data.csv  
+    input_path: components/artifacts/preprocess_data.csv  
     train_size: 0.75
     random_state: 0
     vocab_size: 50000
     no_below: 10
+    grid_search: False
 
   append_topics:
-    model_path: ../train_lda/artifacts/lda_model_num_topics=20-decay=0.5
-    dict_path: ../train_lda/artifacts/dictionary
-    data_path: ../preprocess_data/artifacts/metoo_data.csv
+    model_path: components/artifacts/lda_model_num_topics=10-alpha=0.01-eta=0.21000000000000002
+    dict_path: components/artifacts/dictionary
+    data_path: components/artifacts/preprocess_data.csv
+    output: append_topics.csv
+
+  get_user_tweets:
+    input_path: components/artifacts/preprocess_data.csv
+    user_data_folder: components/artifacts/user_data/
+    less_twt_users_file: less_tweets_user_data.csv
+    get_user_id: False
+    TWITTER_API_KEY_NAME: PROF_AMIR_1_TWITTER_API_KEY
 
   infer_demographics:
-    input_path: ../consolidate_data/artifacts/metoo_data.csv
+    input_path: components/artifacts/preprocess_data.csv
+    output: inferred_demographics.csv
+
+  infer_demographics_bert:
+    page: False
+    input_path: components/artifacts/inferred_demographics_bert.csv
+    user_timeline_dir: /work/socialmedia/metoo/user_data/user_data_50/
+    output_path: components/artifacts/inferred_demographics_bert.csv
+    tmp_output_path: components/artifacts/tmp_inferred_demographics_bert.csv
 
   postprocess_data:
-    input_path: ../append_topics/artifacts/metoo_topics.csv
-    demo_path: ../infer_demographics/artifacts/inferred_demographics.csv
-    influencer_thresh: 20000
+    input_path: components/artifacts/append_topics.csv
+    brand_path: ./data/brandfulllist.xlsx
+    comp_path: ./data/companyfulllist.xlsx
+    demo_path: components/artifacts/inferred_demographics.csv
+    output: postprocess_data.csv
+    nano_influencer_thresh: [1000, 10000]
+    micro_influencer_thresh: [10000, 100000]
+    macro_influencer_thresh: [100000, 1000000]
+    celebrity_thresh: [1000000]
+  
+  page_data:
+    input_path: ./data/user_data.csv
+    out_folder_name: ./data/page/
+    output_path: components/artifacts/inferred_demographics_bert.csv
+  
+  infer_sentiment:
+    input_path: components/artifacts/page/
+    output_path: components/artifacts/page/processed/
+  
+  lexical_analyzer:
+    input_path: components/artifacts/postprocess_data.csv
+    output_path: components/artifacts/postprocess_data_lexical.csv

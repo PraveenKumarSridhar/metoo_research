@@ -5,4 +5,5 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/preprocess_data-%j.out
 source ~/miniconda3/bin/activate
-mlflow run . -P steps=postprocess_data
+conda activate main
+python main.py main.steps=postprocess_data

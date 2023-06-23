@@ -5,4 +5,5 @@
 #SBATCH --mem=50G
 #SBATCH --output=runs/consolidate_data-%j.out
 source ~/miniconda3/bin/activate
-mlflow run . -P steps=consolidate_data
+conda activate main
+python main.py main.steps=consolidate_data

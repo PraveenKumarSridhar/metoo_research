@@ -113,4 +113,10 @@ outputs/
 multirun/
 old/
 artifacts/
+data/append_topics.csv
+data/consolidated_data.csv
+data/append_topics.csv
+data/infer_demographics.csv
+data/postprocess_data.csv
+data/preprocess_data.csv
 metoo_data.zip

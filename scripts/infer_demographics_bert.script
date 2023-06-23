@@ -1,0 +1,10 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --time=24:00:00
+#SBATCH --partition=short
+#SBATCH --mem=200G
+#SBATCH --output=runs/main-%j.out
+source ~/miniconda3/bin/activate
+conda activate main_v3
+python main.py main.steps=infer_demographics_bert
